@@ -63,20 +63,33 @@ public class CaptchaController {
     }
 
     @GetMapping("/captcha")
-    public String captcha() {
+    public String captcha(HttpServletRequest request) {
+        
+        /* 게시물 업/다운로드 코드에 추가될 코드 */
+        HttpSession session = request.getSession();
+        session.removeAttribute("failCnt");
+        session.setAttribute("failCnt", 0);
+
         return "captcha.html";
     }
 
     @PostMapping("/captcha")
-    public Model captchaNumCheck(HttpServletRequest request, Model model) {  //리턴만 해결하면 됨
+    public Model captchaNumCheck(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         String captchaNum = (String)session.getAttribute("captchaNum");
         String captchaNumCheck = request.getParameter("captchaNum");
-
+        
         if(captchaNum.equals(captchaNumCheck)) {
             model.addAttribute("result", "success");
         } else {
             model.addAttribute("result", "fail");
+            
+            int failCnt = (Integer)session.getAttribute("failCnt");
+            session.setAttribute("failCnt", ++failCnt);
+
+            if(failCnt == 3) {
+                log.info("member 메소드(계정잠금) 호출");
+            }
         }
 
         return model;
