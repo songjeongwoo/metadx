@@ -16,40 +16,9 @@
 
     <!-- 로그인 -->
     <select id="loginMember" resultType="com.ktds.metadx.member.dto.MemberDTO">
-        SELECT email, pw
+        SELECT *
         FROM member
         WHERE email = #{email}
         AND pw = #{pw}
     </select>
-
-    <!-- <select id="existsByEmail" resultType="boolean">
-      select count(*) from tbl_member where email=#{email} and rownum=1
-    </select>
-
-    <select id = "findByPw">
-      select * from member where pw=#{pw} and rownum=1
-    </select>
-
-    <select id = "findByEmail">
-      select * from tbl_member where uname=#{uname} and rownum=1
-    </select>
-
-    <update id = "updateMember">
-      update tbl_member
-      <trim suffixOverrides="," prefix="set">
-        <if test="pw!=null">pw=#{pw},</if>
-        <if test="uname!=null">uname=#{pw},</if>
-        <if test="lockbool!=null">lockbool=#{lockbool},</if>
-        <if test="auth!=null">auth=#{auth},</if>
-        <if test="did!=null">did=#{did},</if>
-        <if test="jno!=null">jno=#{jno},</if>
-        <if test="tid!=null">tid=#{tid},</if>
-      </trim>
-      where email=#{email}
-    </update>
-
-    <delete id = "deleteMember">
-      delete from tbl_member where email=#{email}
-    </delete> -->
-
   </mapper>

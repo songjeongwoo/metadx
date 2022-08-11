@@ -4,9 +4,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ktds.metadx.member.dto.MemberDTO;
@@ -27,55 +30,89 @@ public class MemberController {
 
     private final MailService mailService;
 
-    // @GetMapping("add")
-    @RequestMapping(value="/add", method = RequestMethod.GET)
+    @GetMapping("add")
+    // @RequestMapping(value="/add", method = RequestMethod.GET)
     public String membersaveGet(){
         log.info("====================");
         log.info("회원가입 시작");
         log.info("====================");
-        return "addMember.html";
+        return "member/addMember.html";
     }
 
-    // @PostMapping("add")
-    @RequestMapping(value="/add", method = RequestMethod.POST)
+    @PostMapping("add")
+    // @RequestMapping(value="/add", method = RequestMethod.POST)
     public String membersavePost(MemberDTO memberDTO){
         memberService.saveMember(memberDTO);
         log.info("====================");
         log.info("회원가입 완료");
         log.info("====================");
-        return "login2.html";
+        return "member/login2.html";
     }
 
-    @RequestMapping(value="/login", method = RequestMethod.GET)
+    @GetMapping("login")
+    // @RequestMapping(value="/login", method = RequestMethod.GET)
     public String login(){
         log.info("====================");
         log.info("로그인 입력 페이지 GET");
         log.info("====================");
-        return "loginForm.html";
+        return "member/loginForm.html";
     }
 
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String loginPOST(MemberDTO memberDTO, HttpSession session, RedirectAttributes rttr){
+    @PostMapping("login")
+    // @RequestMapping(value="/login", method = RequestMethod.POST)
+    public ModelAndView loginPOST(@ModelAttribute MemberDTO memberDTO, HttpSession session){
         log.info("====================");
         log.info("로그인 입력 페이지 POST");
         log.info("====================");
 
-        MemberDTO memberDTO2 = memberService.loginMember(memberDTO);
+        MemberDTO member = memberService.loginMember(memberDTO);
+        ModelAndView mav = new ModelAndView();
         
-        if(memberDTO2 != null){
-            session.setAttribute("email", memberDTO2.getEmail());
-
-            rttr.addFlashAttribute("mvo", memberDTO2);
-
-            return "redirect:/member/main";
-        }else{
-            return "redirect:/member/login";
+        if(member != null){ // 로그인 성공 시
+            log.info("====================");
+            log.info(member.getEmail() + "님이 로그인 되었습니다");
+            log.info("====================");
+            mav.setViewName("member/member_access.html");
+        } else{ // 로그인 실패 시
+            log.info("====================");
+            log.info("로그인 실패");
+            log.info("====================");
+            mav.setViewName("member/loginForm.html");
+            mav.addObject("message", "error");
         }
-
+        return mav;
     }
-
     // @RequestMapping(value="/login", method = RequestMethod.POST)
-    // public int login(MemberDTO memberDTO, HttpSession session){
-    //     return memberDTO.login(memberDTO, session);
+    // public ModelAndView loginPOST(@ModelAttribute MemberDTO memberDTO, HttpSession session){
+    //     log.info("====================");
+    //     log.info("로그인 입력 페이지 POST");
+    //     log.info("====================");
+
+    //     String email = memberService.loginMember(memberDTO, session);
+    //     ModelAndView mav = new ModelAndView();
+        
+    //     if(email != null){ // 로그인 성공 시
+    //         log.info("====================");
+    //         log.info(email + "님이 로그인 되었습니다");
+    //         log.info("====================");
+    //         mav.setViewName("member/member_access.html");
+    //     } else{ // 로그인 실패 시
+    //         log.info("====================");
+    //         log.info("로그인 실패");
+    //         log.info("====================");
+    //         mav.setViewName("member/login");
+    //         mav.addObject("message", "error");
+    //     }
+    //     return mav;
     // }
+
+    // @RequestMapping(value="/logout", method = RequestMethod.GET)
+    // public ModelAndView logout(HttpSession session, ModelAndView mav){
+    //     memberService.logout(session);
+    //     mav.setViewName("member/login");
+    //     mav.addObject("message", "logout");
+    //     return mav;
+
+    // }
+
 }

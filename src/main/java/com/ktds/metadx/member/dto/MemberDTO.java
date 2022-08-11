@@ -1,5 +1,7 @@
 package com.ktds.metadx.member.dto;
 
+import org.apache.ibatis.session.SqlSession;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +21,5 @@ public class MemberDTO {
     private Long did;
     private Long jno;
     private Long tid;
-    
-    public String loginCheck(MemberDTO dto);
+
 }

@@ -1,6 +1,6 @@
 package com.ktds.metadx.member.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,5 +12,6 @@ public interface MemberService {
     void saveMember(MemberDTO member);
 
     public MemberDTO loginMember(MemberDTO member);
+    public void logout(HttpSession session);
 
 }

@@ -1,6 +1,6 @@
 package com.ktds.metadx.member.service;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -8,11 +8,13 @@ import com.ktds.metadx.member.dto.MemberDTO;
 import com.ktds.metadx.member.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
-    
+
     private final MemberMapper memberMapper;
 
     // 회원가입
@@ -29,31 +31,16 @@ public class MemberServiceImpl implements MemberService{
         memberMapper.saveMember(member);
     }
 
-    // 로그인
     @Override
     public MemberDTO loginMember(MemberDTO member) {
-        
-        MemberDTO member2 = null;
-        try{
-            member2 = member.read
-        }
-        return null;
+        log.info("==================");
+        log.info(memberMapper.loginMember(member));
+        return memberMapper.loginMember(member);
     }
 
-
-    // 이메일 중복 확인
-    // public Boolean emailAvailableCheck(String email){
-    //     return !memberMapper.existsByEmail(email);
-    // }
-
-    // 비밀번호로 이메일 찾기
-    // public String findByEmail(String pw){
-    //     Optional<Member> result = memberMapper.findByPw(pw);
-    //     if(result.isPresent() == true){
-    //         return result.get().getEmail();
-    //     }else{
-    //         return "아이디를 찾지 못했습니다.";
-    //     }
-    // }
+    @Override
+    public void logout(HttpSession session) {
+        session.invalidate();
+    }
 
 }
