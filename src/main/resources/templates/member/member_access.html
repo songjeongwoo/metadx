@@ -8,6 +8,10 @@
 </head>
 <body>
     <h1>로그인된 화면</h1>
-    <div ></div>    
+    <p>안녕하세요 [[${member.email}]]님</p>
+    <button onclick ="location.href='/board/list'">게시판이동</button>
+    <form action = "/member/logout" method = "get">
+        <button>로그아웃</button>
+    </form>
 </body>
 </html>
