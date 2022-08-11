@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인페이지</title>
+</head>
+<body>
+    <h1>로그인</h1>
+    <form action = "/member/login" method = "post">
+        <table>
+            <tr>
+                <td>이메일</td>
+                <td>
+                    <input type = "text" name = "email">
+                </td>
+            <tr>
+            <td>비밀번호</td>
+            <td>
+                <input type = "text" name = "pw">
+            </td>
+            </tr>
+        </table>
+        <button type="submit">로그인</button>
+        <button type="button" onclick="location.href='/member/add'">회원 가입</button>
+</form>
+</body>
+</html>

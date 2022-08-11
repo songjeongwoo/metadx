@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 페이지</title>
+</head>
+<body>
+    <form action = "/member/add" method = "post">
+            <table>
+                <tr>
+                    <td>이메일</td>
+                    <td>
+                        <input type = "text" name = "email">
+                    </td>
+                <tr>
+                <td>비밀번호</td>
+                <td>
+                    <input type = "text" name = "pw">
+                </td>
+            </tr>
+            <tr>
+                <td>회원이름</td>
+                <td>
+                    <input type = "text" name = "uname">
+                </td>
+            </tr>
+            <tr>
+                <td>잠김여부</td>
+                <td>
+                    <select name = "lockbool" style="width:100%;">
+                        <option value = "0">잠김</option>
+                        <option value = "1">안잠김</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>관리자여부</td>
+                <td>
+                    <select name = "auth" style="width:100%;">
+                        <option value = "0">접근권한없음</option>
+                        <option value = "1">접근권한있음</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>본부명</td>
+                <td>
+                    <select name = "did" style="width:100%;">
+                        <option value = "1">1</option>
+                        <option value = "2">2</option>
+                        <option value = "3">3</option>
+                        <option value = "4">4</option>
+                        <option value = "5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>직급명</td>
+                <td>
+                    <select name = "jno" style="width:100%;">
+                        <option value = "1">1</option>
+                        <option value = "2">2</option>
+                        <option value = "3">3</option>
+                        <option value = "4">4</option>
+                        <option value = "5">5</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>팀명</td>
+                <td>
+                    <select name = "tid" style="width:100%;">
+                        <option value = "1">1</option>
+                        <option value = "2">2</option>
+                        <option value = "3">3</option>
+                        <option value = "4">4</option>
+                        <option value = "5">5</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button type="submit">가입 완료</button>
+    </form>
+</body>
+</html>
