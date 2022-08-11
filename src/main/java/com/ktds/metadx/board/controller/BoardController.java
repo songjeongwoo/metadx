@@ -38,7 +38,10 @@ public class BoardController {
 
     @ResponseBody
     @PostMapping("addPost")
-    public RedirectView addPost(BoardDTO boardDTO) {
-        return new RedirectView("/board/list");
+    public void addPost(BoardDTO boardDTO) {
+        log.info("===============================");
+        log.info(service.addPost(boardDTO));
+
+        //redirect는 ajax로 리팩토링
     }
 }
