@@ -31,5 +31,10 @@ public class StatisticsMapperTests {
     public void testLoadList() {
         mapper.getList().forEach(history -> log.info(history));
     }
+
+    @Test
+    public void testLoadLockList() {
+        mapper.getLockList().forEach(lock -> log.info(lock));
+    }
     
 }

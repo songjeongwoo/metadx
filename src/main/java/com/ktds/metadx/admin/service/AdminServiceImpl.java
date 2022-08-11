@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ktds.metadx.admin.dto.AdminDTO;
+import com.ktds.metadx.admin.dto.AdminLockDTO;
 import com.ktds.metadx.admin.mapper.StatisticsMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<AdminDTO> getList() {
         return mapper.getList();
+    }
+
+    @Override
+    public List<AdminLockDTO> getLockList() {
+        return mapper.getLockList();
     }
     
 }
