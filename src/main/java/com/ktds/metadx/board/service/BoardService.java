@@ -9,4 +9,5 @@ import com.ktds.metadx.board.dto.BoardDTO;
 @Transactional
 public interface BoardService {
     public List<BoardDTO> getList();
+    public boolean addPost(BoardDTO boardDTO);
 }
