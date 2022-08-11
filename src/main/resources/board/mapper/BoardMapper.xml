@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.ktds.metadx.board.mapper.BoardMapper">
+    <select id="getList" resultType="com.ktds.metadx.board.dto.BoardDTO">
+        select bid bno, btitle title, bcontent content, breg_date regDate,
+            bupt_date modDate, filebool isFiles
+        from board
+        where bid > 0
+        order by bid desc
+    </select>
+
+    <insert id="insertPost">
+        insert into board (btitle, bcontent, breg_date)
+          values (#{title}, #{content}, now())
+    </insert>
+  </mapper>

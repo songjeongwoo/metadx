@@ -20,4 +20,5 @@ public class MemberDTO {
     private Long jno;
     private Long tid;
     
+    public String loginCheck(MemberDTO dto);
 }
