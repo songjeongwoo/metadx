@@ -15,4 +15,11 @@
         insert into board (title, content, regDate, email, did, tid)
           values (#{title}, #{content}, now(), 'abcd@kt.com', 1, 1)
     </insert>
+
+    <select id="detailPost" resultType="com.ktds.metadx.board.dto.BoardDTO">
+        select bid bno, btitle title, bcontent content, breg_date regDate,
+              bupt_date modDate, filebool isFiles
+        from board
+        where bid = #{bno}
+    </select>
   </mapper>
