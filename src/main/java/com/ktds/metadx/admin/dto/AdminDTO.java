@@ -1,6 +1,5 @@
 package com.ktds.metadx.admin.dto;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -13,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminDTO {
-    private Long hid;
+    private Long hno;
     private Long hbool;
     private LocalDateTime hreg_date;
-    private Long bid;
+    private Long bno;
     private Long jno;
-    private Long did;
-    private Long fid;
+    private Long dno;
+    private Long fno;
 }

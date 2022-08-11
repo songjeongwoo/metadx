@@ -1,7 +1,5 @@
 package com.ktds.metadx.member.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 
 import com.ktds.metadx.member.dto.MemberDTO;
@@ -21,13 +19,13 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void saveMember(MemberDTO member){
         member.setEmail(member.getEmail());
-        member.setPw(member.getPw());
-        member.setUname(member.getUname());
+        member.setMpw(member.getMpw());
+        member.setMname(member.getMname());
         // member.setLockbool(false);
         // member.setAuth(false);
-        member.setDid(member.getDid());
+        member.setDno(member.getDno());
         member.setJno(member.getJno());
-        member.setTid(member.getTid());
+        member.setTno(member.getTno());
         memberMapper.saveMember(member);
     }
 

@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ktds.metadx.member.dto.MemberDTO;
 import com.ktds.metadx.member.service.MailService;
@@ -28,7 +25,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    private final MailService mailService;
+    // private final MailService mailService;
 
     @GetMapping("add")
     public String membersaveGet(){

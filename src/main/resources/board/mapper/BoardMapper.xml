@@ -5,21 +5,22 @@
 
   <mapper namespace="com.ktds.metadx.board.mapper.BoardMapper">
     <select id="getList" resultType="com.ktds.metadx.board.dto.BoardDTO">
-        select bno, title, content, regDate, modDate, isFiles
+        select bno, btitle title, bcontent content, breg_date regDate,
+              bupt_date modDate, isfile isFiles
         from board
         where bno > 0
         order by bno desc
     </select>
 
     <insert id="insertPost">
-        insert into board (title, content, regDate, email, did, tid)
+        insert into board (btitle, bcontent, breg_date, email, dno, tno)
           values (#{title}, #{content}, now(), 'abcd@kt.com', 1, 1)
     </insert>
 
     <select id="detailPost" resultType="com.ktds.metadx.board.dto.BoardDTO">
-        select bid bno, btitle title, bcontent content, breg_date regDate,
-              bupt_date modDate, filebool isFiles
+        select bno, btitle title, bcontent content, breg_date regDate,
+              bupt_date modDate, isfile isFiles
         from board
-        where bid = #{bno}
+        where bno = #{bno}
     </select>
   </mapper>

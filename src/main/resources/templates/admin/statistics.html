@@ -32,11 +32,11 @@
 
                         <tbody>
                         <tr th:each="history:${statisticsList}" >
-                            <th>[[${history.hid}]]</th>
-                            <th>[[${history.bid}]]</th>
+                            <th>[[${history.hno}]]</th>
+                            <th>[[${history.bno}]]</th>
                             <th th:if="${history.hbool == 1}">성공</th>
                             <th th:if="${history.hbool == 0}">실패</th>
-                            <th>[[${history.fid}]]</th>
+                            <th>[[${history.fno}]]</th>
                             <th>[[${#temporals.format(history.hreg_date, 'yyyy-MM-dd, hh:mm:ss')}]]</th>
                         </tr>
                         </tbody>

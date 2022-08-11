@@ -24,13 +24,13 @@ public class MemberMapperTests {
         IntStream.rangeClosed(1, 10).forEach(i ->{
             MemberDTO member = MemberDTO.builder()
                 .email("test" + i + "@ktds.com")
-                .pw("testpw" + i)
-                .uname("testname" + i)
+                .mpw("testpw" + i)
+                .mname("testname" + i)
                 // .lockbool(false)
                 // .auth(false)
-                .did((long)0)
+                .dno((long)0)
                 .jno((long)0)
-                .tid((long)0)
+                .tno((long)0)
                 .build();
                 
             memberMapper.saveMember(member);

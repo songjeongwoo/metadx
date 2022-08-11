@@ -1,7 +1,5 @@
 package com.ktds.metadx.member.dto;
 
-import org.apache.ibatis.session.SqlSession;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +12,12 @@ import lombok.NoArgsConstructor;
 public class MemberDTO {
 
     private String email;
-    private String pw;
-    private String uname;
+    private String mpw;
+    private String mname;
     // private boolean lockbool;
     // private boolean auth;
-    private Long did;
+    private Long dno;
     private Long jno;
-    private Long tid;
+    private Long tno;
 
 }

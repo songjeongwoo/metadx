@@ -5,13 +5,10 @@
 
   <mapper namespace="com.ktds.metadx.member.mapper.MemberMapper">
     <!-- 회원가입 -->
-    <insert id="saveMember" parameterType="com.ktds.metadx.member.dto.MemberDTO">
-        <!-- INSERT INTO member
-        (email, pw, uname, lockbool, auth, did, jno, tid)
-        VALUES(#{email}, #{pw}, #{uname}, #{lockbool}, #{auth}, #{did}, #{jno}, #{tid}); -->
+    <insert id="saveMember">
         INSERT INTO member
-        (email, pw, uname, did, jno, tid)
-        VALUES (#{email}, #{pw}, #{uname}, #{did}, #{jno}, #{tid})
+        (email, mpw, mname, dno, jno, tno)
+        VALUES (#{email}, #{mpw}, #{mname}, #{dno}, #{jno}, #{tno})
     </insert>
 
     <!-- 로그인 -->
@@ -19,6 +16,6 @@
         SELECT *
         FROM member
         WHERE email = #{email}
-        AND pw = #{pw}
+        AND mpw = #{mpw}
     </select>
   </mapper>
