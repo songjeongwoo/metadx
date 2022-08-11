@@ -2,6 +2,7 @@ package com.ktds.metadx.board.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,5 +44,16 @@ public class BoardController {
         log.info(service.addPost(boardDTO));
 
         //redirect는 ajax로 리팩토링
+    }
+
+    @GetMapping("/{bno}")
+    public ModelAndView read(@PathVariable("bno") Long bno) {
+        ModelAndView mv = new ModelAndView();
+        log.info("==============================bno========================");
+        log.info(bno);
+        log.info("==============================detail========================");
+        mv.addObject("detailPost", service.detailPost(bno));
+        mv.setViewName("board/detailPost.html");
+        return mv;
     }
 }

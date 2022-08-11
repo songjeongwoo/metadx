@@ -10,4 +10,5 @@ import com.ktds.metadx.board.dto.BoardDTO;
 public interface BoardService {
     public List<BoardDTO> getList();
     public boolean addPost(BoardDTO boardDTO);
+    public BoardDTO detailPost(Long bno);
 }

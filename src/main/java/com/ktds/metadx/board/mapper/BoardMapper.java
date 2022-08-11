@@ -7,4 +7,5 @@ import com.ktds.metadx.board.dto.BoardDTO;
 public interface BoardMapper {
     List<BoardDTO> getList();
     int insertPost(BoardDTO boardDTO);
+    BoardDTO detailPost(Long bno);
 }

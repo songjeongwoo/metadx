@@ -22,7 +22,9 @@
 
         <tr th:each="post:${boardList}"  >
             <th scope="row">[[${post.bno}]]</th>
-            <td>[[${post.title}]]</td>
+            <td>
+                <a th:href="@{'/board/'+${post.bno}}">[[${post.title}]]</a>
+            </td>
             <td>빈칸</td>
             <td>[[${#temporals.format(post.regDate, 'yyyy-MM-dd')}]]</td>
         </tr>
