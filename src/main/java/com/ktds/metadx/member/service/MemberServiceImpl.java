@@ -38,9 +38,4 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.loginMember(member);
     }
 
-    @Override
-    public void logout(HttpSession session) {
-        session.invalidate();
-    }
-
 }

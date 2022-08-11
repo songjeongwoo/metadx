@@ -31,7 +31,6 @@ public class MemberController {
     private final MailService mailService;
 
     @GetMapping("add")
-    // @RequestMapping(value="/add", method = RequestMethod.GET)
     public String membersaveGet(){
         log.info("====================");
         log.info("회원가입 시작");
@@ -40,17 +39,15 @@ public class MemberController {
     }
 
     @PostMapping("add")
-    // @RequestMapping(value="/add", method = RequestMethod.POST)
     public String membersavePost(MemberDTO memberDTO){
         memberService.saveMember(memberDTO);
         log.info("====================");
         log.info("회원가입 완료");
         log.info("====================");
-        return "member/login2.html";
+        return "member/loginForm.html";
     }
 
     @GetMapping("login")
-    // @RequestMapping(value="/login", method = RequestMethod.GET)
     public String login(){
         log.info("====================");
         log.info("로그인 입력 페이지 GET");
@@ -59,7 +56,6 @@ public class MemberController {
     }
 
     @PostMapping("login")
-    // @RequestMapping(value="/login", method = RequestMethod.POST)
     public ModelAndView loginPOST(@ModelAttribute MemberDTO memberDTO, HttpSession session){
         log.info("====================");
         log.info("로그인 입력 페이지 POST");
@@ -73,6 +69,7 @@ public class MemberController {
             log.info(member.getEmail() + "님이 로그인 되었습니다");
             log.info("====================");
             mav.setViewName("member/member_access.html");
+            mav.addObject("member", member);
         } else{ // 로그인 실패 시
             log.info("====================");
             log.info("로그인 실패");
@@ -82,37 +79,14 @@ public class MemberController {
         }
         return mav;
     }
-    // @RequestMapping(value="/login", method = RequestMethod.POST)
-    // public ModelAndView loginPOST(@ModelAttribute MemberDTO memberDTO, HttpSession session){
-    //     log.info("====================");
-    //     log.info("로그인 입력 페이지 POST");
-    //     log.info("====================");
 
-    //     String email = memberService.loginMember(memberDTO, session);
-    //     ModelAndView mav = new ModelAndView();
-        
-    //     if(email != null){ // 로그인 성공 시
-    //         log.info("====================");
-    //         log.info(email + "님이 로그인 되었습니다");
-    //         log.info("====================");
-    //         mav.setViewName("member/member_access.html");
-    //     } else{ // 로그인 실패 시
-    //         log.info("====================");
-    //         log.info("로그인 실패");
-    //         log.info("====================");
-    //         mav.setViewName("member/login");
-    //         mav.addObject("message", "error");
-    //     }
-    //     return mav;
-    // }
-
-    // @RequestMapping(value="/logout", method = RequestMethod.GET)
-    // public ModelAndView logout(HttpSession session, ModelAndView mav){
-    //     memberService.logout(session);
-    //     mav.setViewName("member/login");
-    //     mav.addObject("message", "logout");
-    //     return mav;
-
-    // }
+    @GetMapping("logout")
+    public String logout(HttpSession session){
+        log.info("===========================");
+        log.info("로그아웃 되었습니다");
+        log.info("===========================");
+        session.invalidate();
+        return "redirect:/member/login";
+    }
 
 }

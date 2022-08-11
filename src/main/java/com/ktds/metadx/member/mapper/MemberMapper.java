@@ -1,7 +1,5 @@
 package com.ktds.metadx.member.mapper;
 
-import java.util.List;
-import java.util.Optional;
 
 import com.ktds.metadx.member.dto.MemberDTO;
 
