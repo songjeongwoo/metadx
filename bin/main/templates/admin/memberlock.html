@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change lock state - MetaDX</title>
+</head>
+<body>
+    <h1>Member Lock Page</h1>
+
+    <div class="row mt-3">
+        <div class="col">
+
+            <div class="card">
+                <div class="card-header">
+                    List
+                </div>
+                <div class="card-body" >
+                    <h5 class="card-title">Member Lock List</h5>
+
+                    <table class="locktable">
+                        <thead>
+                        <tr>
+                            <th scope="col">이메일</th>
+                            <th scope="col">상태</th>
+                            <th scope="col">차단 시간</th>
+                            <th scope="col">상태 변경</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="memberlock:${memberLockList}" >
+                            <th>[[${memberlock.email}]]</th>
+                            <th th:if="${memberlock.islock == 1}">차단</th>
+                            <th>[[${#temporals.format(memberlock.lockdate, 'yyyy-MM-dd, hh:mm:ss')}]]</th>
+                            <th><button>click</button></th>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div><!--end card body-->
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+
+</body>
+</html>
