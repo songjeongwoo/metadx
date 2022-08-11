@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Statistics Page</h1>
+
+    <div class="row mt-3">
+        <div class="col">
+
+            <div class="card">
+                <div class="card-header">
+                    List
+                </div>
+                <div class="card-body" >
+                    <h5 class="card-title">Downloads List</h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">게시물 번호</th>
+                            <th scope="col">성공 여부</th>
+                            <th scope="col">파일 고유 번호</th>
+                            <th scope="col">다운로드 시간</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="history:${statisticsList}" >
+                            <th>[[${history.hid}]]</th>
+                            <th>[[${history.bid}]]</th>
+                            <th th:if="${history.hbool == 1}">성공</th>
+                            <th th:if="${history.hbool == 0}">실패</th>
+                            <th>[[${history.fid}]]</th>
+                            <th>[[${#temporals.format(history.hreg_date, 'yyyy-MM-dd, hh:mm:ss')}]]</th>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div><!--end card body-->
+            </div><!--end card-->
+        </div><!-- end col-->
+    </div><!-- end row-->
+</body>
+</html>
