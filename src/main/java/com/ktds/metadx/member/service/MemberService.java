@@ -11,4 +11,6 @@ public interface MemberService {
 
     void saveMember(MemberDTO member);
 
+    public MemberDTO loginMember(MemberDTO member);
+
 }

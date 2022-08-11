@@ -21,13 +21,25 @@ public class MemberServiceImpl implements MemberService{
         member.setEmail(member.getEmail());
         member.setPw(member.getPw());
         member.setUname(member.getUname());
-        member.setLockbool(false);
-        member.setAuth(false);
+        // member.setLockbool(false);
+        // member.setAuth(false);
         member.setDid(member.getDid());
         member.setJno(member.getJno());
         member.setTid(member.getTid());
         memberMapper.saveMember(member);
     }
+
+    // 로그인
+    @Override
+    public MemberDTO loginMember(MemberDTO member) {
+        
+        MemberDTO member2 = null;
+        try{
+            member2 = member.read
+        }
+        return null;
+    }
+
 
     // 이메일 중복 확인
     // public Boolean emailAvailableCheck(String email){
@@ -42,6 +54,6 @@ public class MemberServiceImpl implements MemberService{
     //     }else{
     //         return "아이디를 찾지 못했습니다.";
     //     }
-    // }   
+    // }
 
 }

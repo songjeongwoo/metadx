@@ -14,8 +14,8 @@ public class MemberDTO {
     private String email;
     private String pw;
     private String uname;
-    private boolean lockbool;
-    private boolean auth;
+    // private boolean lockbool;
+    // private boolean auth;
     private Long did;
     private Long jno;
     private Long tid;

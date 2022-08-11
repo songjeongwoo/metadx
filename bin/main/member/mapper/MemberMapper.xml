@@ -6,15 +6,18 @@
   <mapper namespace="com.ktds.metadx.member.mapper.MemberMapper">
     <!-- 회원가입 -->
     <insert id="saveMember" parameterType="com.ktds.metadx.member.dto.MemberDTO">
-        INSERT INTO tbl_member
+        <!-- INSERT INTO member
         (email, pw, uname, lockbool, auth, did, jno, tid)
-        VALUES(#{email}, #{pw}, #{uname}, #{lockbool}, #{auth}, #{did}, #{jno}, #{tid});
+        VALUES(#{email}, #{pw}, #{uname}, #{lockbool}, #{auth}, #{did}, #{jno}, #{tid}); -->
+        INSERT INTO member
+        (email, pw, uname, did, jno, tid)
+        VALUES (#{email}, #{pw}, #{uname}, #{did}, #{jno}, #{tid})
     </insert>
 
     <!-- 로그인 -->
     <select id="loginMember" resultType="com.ktds.metadx.member.dto.MemberDTO">
         SELECT email, pw
-        FROM tbl_member
+        FROM member
         WHERE email = #{email}
         AND pw = #{pw}
     </select>

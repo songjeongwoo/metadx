@@ -9,6 +9,8 @@ public interface MemberMapper {
 
     void saveMember(MemberDTO memberDTO); // 회원 가입
 
+    void loginMember(MemberDTO memberDTO); // 로그인
+
     // public Optional<MemberDTO> findByEmail(String uname); // 이름으로 비밀번호 찾기
 
     // public Optional<MemberDTO> findByPw(String pw); // 패스워드 찾기
