@@ -25,5 +25,10 @@ public class AdminServiceImpl implements AdminService {
     public List<AdminLockDTO> getLockList() {
         return mapper.getLockList();
     }
+
+    @Override
+    public int getCountDownloads() {
+        return mapper.getCountDownloads();
+    }    
     
 }

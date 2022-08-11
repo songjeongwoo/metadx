@@ -9,6 +9,11 @@
         order by hid desc
     </select>
 
+    <select id="getCountDownloads" resultType="int">
+        select count(hbool) from history
+        where hbool > 0
+    </select>
+
     <select id="getLockList" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
         select * from memberlock
         where islock > 0

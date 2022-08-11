@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/admin/*")
 @RequiredArgsConstructor
 @Log4j2
-public class StatisticsController {
+public class AdminController {
 
     private final AdminService service;
 
@@ -22,6 +22,7 @@ public class StatisticsController {
     public void statistics(Model model) {
         log.info("Statistics Page Loading...");
         model.addAttribute("statisticsList", service.getList());
+        model.addAttribute("getCountDownloads", service.getCountDownloads());
     }
 
     @GetMapping("/memberlock")

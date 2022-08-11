@@ -36,5 +36,10 @@ public class StatisticsMapperTests {
     public void testLoadLockList() {
         mapper.getLockList().forEach(lock -> log.info(lock));
     }
+
+    @Test
+    public void testGetCountDownloads() {
+        log.info(mapper.getCountDownloads());
+    }
     
 }

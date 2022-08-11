@@ -11,4 +11,6 @@ public interface StatisticsMapper {
     List<AdminDTO> getList(); 
 
     List<AdminLockDTO> getLockList();
+
+    int getCountDownloads();
 }

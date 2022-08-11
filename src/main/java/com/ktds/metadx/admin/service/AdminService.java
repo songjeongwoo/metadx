@@ -9,4 +9,6 @@ public interface AdminService {
     public List<AdminDTO> getList();
 
     public List<AdminLockDTO> getLockList();
+
+    public int getCountDownloads();
 }
