@@ -10,7 +10,8 @@
     </select>
 
     <select id="getLockList" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
-        select * from memberlock 
+        select * from memberlock
+        where islock > 0
         order by lockdate desc
     </select>
 

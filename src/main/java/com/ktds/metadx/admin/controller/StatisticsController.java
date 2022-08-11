@@ -20,7 +20,13 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public void statistics(Model model) {
-        log.info("통계 페이지 불러오는 중..");
+        log.info("Statistics Page Loading...");
         model.addAttribute("statisticsList", service.getList());
+    }
+
+    @GetMapping("/memberlock")
+    public void memberlock(Model model) {
+        log.info("Lock Page Loading...");
+        model.addAttribute("memberLockList", service.getLockList());
     }
 }
