@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  <mapper namespace="com.ktds.metadx.admin.mapper.StatisticsMapper">
+    <select id="getList" resultType="com.ktds.metadx.admin.dto.AdminDTO">
+        select * from history 
+        order by hno desc
+    </select>
+
+    <select id="getCountDownloads" resultType="int">
+        select count(hbool) from history
+        where hbool > 0
+    </select>
+
+    <select id="getLockList" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
+        select * from memberlock
+        where islock > 0
+        order by lockdate desc
+    </select>
+
+  </mapper>

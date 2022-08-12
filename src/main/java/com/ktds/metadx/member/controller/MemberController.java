@@ -19,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
-@RequestMapping("/member/")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -27,15 +27,15 @@ public class MemberController {
 
     // private final MailService mailService;
 
-    @GetMapping("add")
-    public String membersaveGet(){
-        log.info("====================");
-        log.info("회원가입 시작");
-        log.info("====================");
-        return "member/addMember.html";
-    }
+    // @GetMapping("/add")
+    // public String membersaveGet(){
+    //     log.info("====================");
+    //     log.info("회원가입 시작");
+    //     log.info("====================");
+    //     return "member/addMember.html";
+    // }
 
-    @PostMapping("add")
+    @PostMapping("/add")
     public String membersavePost(MemberDTO memberDTO){
         memberService.saveMember(memberDTO);
         log.info("====================");
@@ -44,15 +44,15 @@ public class MemberController {
         return "member/loginForm.html";
     }
 
-    @GetMapping("login")
-    public String login(){
-        log.info("====================");
-        log.info("로그인 입력 페이지 GET");
-        log.info("====================");
-        return "member/loginForm.html";
-    }
+    // @GetMapping("/login")
+    // public String login(){
+    //     log.info("====================");
+    //     log.info("로그인 입력 페이지 GET");
+    //     log.info("====================");
+    //     return "member/loginForm.html";
+    // }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ModelAndView loginPOST(@ModelAttribute MemberDTO memberDTO, HttpSession session){
         log.info("====================");
         log.info("로그인 입력 페이지 POST");
@@ -77,13 +77,13 @@ public class MemberController {
         return mav;
     }
 
-    @GetMapping("logout")
-    public String logout(HttpSession session){
-        log.info("===========================");
-        log.info("로그아웃 되었습니다");
-        log.info("===========================");
-        session.invalidate();
-        return "redirect:/member/login";
-    }
+    // @GetMapping("/logout")
+    // public String logout(HttpSession session){
+    //     log.info("===========================");
+    //     log.info("로그아웃 되었습니다");
+    //     log.info("===========================");
+    //     session.invalidate();
+    //     return "redirect:/member/login";
+    // }
 
 }
