@@ -18,24 +18,14 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">로그인된 화면</h3></div>
                                     <div class="card-body">
                                         <form>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                                <label for="inputEmail">Email address</label>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-                                                <label for="inputPassword">Password</label>
-                                            </div>
-                                            <div class="form-check mb-3">
-                                                <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                                <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+                                                <p id = "email">[email]님</p>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="password.html">Forgot Password?</a>
-                                                <a class="btn btn-primary b1" href="index.html">Login</a>
+                                                <a class="btn btn-primary b1" href="index.html">Logout</a>
                                             </div>
                                         </form>
                                     </div>
@@ -67,26 +57,21 @@
         <script src="../js/scripts.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
+            const email = window.localStorage.getItem('email')
+
+            console.log(email)
+
+            document.querySelector("#email").setAttribute("email", email)
+
             document.querySelector(".b1").addEventListener("click", (even) => {
                 
                 event.preventDefault();
                 event.stopPropagation();
 
-                email = document.querySelector("#inputEmail").value;
-                mpw = document.querySelector("#inputPassword").value;
-
-                const member = {
-                    "email":email,
-                    "mpw":mpw
-                }
-
-                console.log(member)
-
-                axios.post("/member/login", member).then(res => {
-                    window.localStorage.setItem('email', member.email)
-
-                    alert(document.querySelector("#inputEmail").value + "로 로그인 합니다");
-                    self.location = "http://localhost:8080/member/logout.html"
+                axios.get("/member/logout").then(res => {
+                    alert(email + "을 로그아웃 합니다.");
+                    window.localStorage.removeItem(email);
+                    self.location = "http://localhost:8080/member/login.html"
                 })
 
             }, false)

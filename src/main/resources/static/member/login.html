@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="password.html">Forgot Password?</a>
-                                                <a class="btn btn-primary" href="index.html">Login</a>
+                                                <a class="btn btn-primary b1" href="index.html">Login</a>
                                             </div>
                                         </form>
                                     </div>
@@ -65,5 +65,32 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../js/scripts.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            document.querySelector(".b1").addEventListener("click", (even) => {
+                
+                event.preventDefault();
+                event.stopPropagation();
+
+                email = document.querySelector("#inputEmail").value;
+                mpw = document.querySelector("#inputPassword").value;
+
+                const member = {
+                    "email":email,
+                    "mpw":mpw
+                }
+
+                console.log(member)
+
+                axios.post("/member/login", member).then(res => {
+                    window.localStorage.setItem('email', member.email)
+
+                    alert(document.querySelector("#inputEmail").value + "로 로그인 합니다");
+                    self.location = "http://localhost:8080/member/logout.html"
+                })
+
+            }, false)
+        </script>
     </body>
 </html>
+
