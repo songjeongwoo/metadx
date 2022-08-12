@@ -17,16 +17,8 @@ public class MemberServiceImpl implements MemberService{
 
     // 회원가입
     @Override
-    public void saveMember(MemberDTO member){
-        member.setEmail(member.getEmail());
-        member.setMpw(member.getMpw());
-        member.setMname(member.getMname());
-        // member.setLockbool(false);
-        // member.setAuth(false);
-        member.setDno(member.getDno());
-        member.setJno(member.getJno());
-        member.setTno(member.getTno());
-        memberMapper.saveMember(member);
+    public boolean addMember(MemberDTO memberDTO) {
+        return memberMapper.saveMember(memberDTO) > 0;
     }
 
     @Override

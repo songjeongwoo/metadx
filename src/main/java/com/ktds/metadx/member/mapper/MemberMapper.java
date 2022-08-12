@@ -5,7 +5,7 @@ import com.ktds.metadx.member.dto.MemberDTO;
 
 public interface MemberMapper {
 
-    void saveMember(MemberDTO memberDTO); // 회원 가입
+    int saveMember(MemberDTO memberDTO); // 회원 가입
 
     MemberDTO loginMember(MemberDTO memberDTO); // 로그인
 
