@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminLockDTO {
+    private Long lno;
     private String email;
     private int islock;
     private LocalDateTime lockdate;
