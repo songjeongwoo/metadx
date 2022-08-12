@@ -174,14 +174,16 @@
         <script>
             window.addEventListener("DOMContentLoaded", () => {
                 axios.get("/board/list").then(res => {
+                    console.log(res)
                     const posts = res.data
                     let postList = [];
                     posts.forEach(async (post) => {
+                        console.log(post)
                         postList.push(
                             `<tr class="postDetail">
                                 <td class="postId">${post.bno}</td>
                                 <td class="postTitle">${post.title}</td>
-                                <td class="postWriter">jeongwoo</td>
+                                <td class="postWriter">${post.member.mname}</td>
                                 <td class="postRegDate">${post.regDate}</td>
                             </tr>`)
                     })

@@ -4,13 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
   <mapper namespace="com.ktds.metadx.board.mapper.BoardMapper">
-    <select id="getList" resultType="com.ktds.metadx.board.dto.BoardDTO">
-        select bno, btitle title, bcontent content, breg_date regDate,
-              bupt_date modDate, isfile isFiles
-        from board
+    <select id="getList" resultMap="boardMap">
+        select b.bno, b.btitle title, b.breg_date regDate, m.mname
+        from board b
+        left join member m
+        on b.email = m.email
         where bno > 0
         order by bno desc
     </select>
+
+    <resultMap id="boardMap" type="com.ktds.metadx.board.dto.BoardDTO">
+      <id property="bno" column="bno"/>
+      <result property="title" column="title"/>
+      <result property="regDate" column="regDate"/>
+      <collection property="member" ofType="com.ktds.metadx.member.dto.MemberDTO">
+        <result property="mname" column="mname"/>
+      </collection>
+    </resultMap>
 
     <insert id="insertPost">
         insert into board (btitle, bcontent, breg_date, email, dno, tno)
