@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ktds.metadx.board.dto.BoardDTO;
+import com.ktds.metadx.board.dto.PageRequestDTO;
+import com.ktds.metadx.board.dto.PageResponseDTO;
 import com.ktds.metadx.board.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,8 +26,8 @@ public class BoardController {
     private final BoardService service;
 
     @GetMapping("/list")
-    public List<BoardDTO> getList() {
-        return service.getList();
+    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
+        return service.getList(pageRequestDTO);
     }
 
     @GetMapping("/addPost")

@@ -11,6 +11,11 @@
         on b.email = m.email
         where bno > 0
         order by bno desc
+        limit #{skip},#{size}
+    </select>
+    <select id="getListCount" resultType="int">
+        select count(bno)
+        from board
     </select>
 
     <resultMap id="boardMap" type="com.ktds.metadx.board.dto.BoardDTO">

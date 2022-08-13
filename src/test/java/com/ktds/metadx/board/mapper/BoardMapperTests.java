@@ -1,8 +1,13 @@
 package com.ktds.metadx.board.mapper;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ktds.metadx.board.dto.BoardDTO;
+import com.ktds.metadx.board.dto.PageRequestDTO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -15,6 +20,10 @@ public class BoardMapperTests {
     @Test
     public void testList() {
 
-        log.info(boardMapper.getList());
+        PageRequestDTO dto = PageRequestDTO.builder().build();
+		
+		List<BoardDTO> list = boardMapper.getList(dto);
+		
+		list.forEach(listDTO -> log.info(listDTO));
     }
 }
