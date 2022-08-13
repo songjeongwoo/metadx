@@ -1,6 +1,7 @@
 package com.ktds.metadx.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int getCountDownloads() {
         return mapper.getCountDownloads();
-    }    
+    }
     
 }
