@@ -13,15 +13,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDTO {
+public class FileDTO {
 
     private Long fno;
     private String fname;
     private String fkey;
     private LocalDateTime fregDate;
     private LocalDateTime fmodDate;
-    private String ftype;
+    private String fdatatype;
     private String fuuid;
+
+    private Long bno;
 
     private MultipartFile[] files;
     
