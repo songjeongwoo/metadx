@@ -5,16 +5,30 @@
 
   <mapper namespace="com.ktds.metadx.admin.mapper.StatisticsMapper">
     <select id="getList" resultType="com.ktds.metadx.admin.dto.AdminDTO">
-        SELECT h.*, b.dno, b.tno
+        SELECT h.hno, h.hbool, h.hreg_date, h.bno, h.email,
+        CASE 
+          when d.dno then d.dname
+          ELSE '부서 미지정'
+          END AS '본부',
+        CASE 
+          when t.tno then t.tname
+          ELSE '팀 미지정'
+          END AS '팀'
         FROM history h
         LEFT OUTER JOIN board b 
         ON h.bno = b.bno
-        ORDER BY hno;
+        LEFT OUTER JOIN department d
+        ON b.dno = d.dno
+        LEFT OUTER JOIN team t
+        ON b.tno = t.tno
+        ORDER BY h.hno;
     </select>
 
     <select id="getCountDownloads" resultType="int">
-        select count(hbool) from history
-        where hbool > 0
+        SELECT count(hbool) FROM history
+        WHERE hbool > 0
+          AND YEAR(hreg_date) = YEAR(NOW())
+        GROUP BY MONTH(hreg_date);
     </select>
 
     <select id="getLockList" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">

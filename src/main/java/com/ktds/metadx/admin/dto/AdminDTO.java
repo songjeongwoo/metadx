@@ -22,8 +22,7 @@ public class AdminDTO {
     
     private Long bno;
     private String email;
-    
-    MemberDTO memberDTO = new MemberDTO();
-    private Long dno = memberDTO.getDno();
-    private Long tno = memberDTO.getTno();
+
+    private String 팀;
+    private String 본부;
 }
