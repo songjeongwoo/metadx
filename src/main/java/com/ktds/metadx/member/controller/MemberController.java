@@ -1,7 +1,10 @@
 package com.ktds.metadx.member.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +32,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // private final MailService mailService;
+    private final MailService mailService;
 
     @GetMapping("/add")
     public ModelAndView membersaveGet(){
@@ -49,6 +54,41 @@ public class MemberController {
         log.info("====================");
         
         return Map.of("result", "success");
+    }
+
+    @PostMapping("mail")
+    public Map<String, String> sendMail(@RequestBody String email, HttpServletRequest request){
+
+        log.info("============== 메일 전송 시작 ==========");
+
+        try {
+            email = URLDecoder.decode(email, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return Map.of("result", "fail");
+        }
+
+        String code = mailService.sendSimpleMessage(email);
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute("mail_chk", code);
+        log.info(session.getAttribute("mail_chk"));
+
+        log.info("메일 전송 완료");
+
+        return Map.of("result", "sueccess");
+    }
+
+    @PostMapping("mail_chk")
+    public String mail_chk(HttpServletRequest request){
+        log.info("================인증번호 비교============");
+        
+        HttpSession session = request.getSession();
+        String code = (String)session.getAttribute("mail_chk");
+
+        return code;
     }
 
     @GetMapping("/login")
