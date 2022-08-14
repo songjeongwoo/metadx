@@ -83,6 +83,11 @@
                 console.log(member)
 
                 axios.post("/member/login", member).then(res => {
+
+                    console.log(res.data);
+
+                    
+                    
                     window.localStorage.setItem('email', member.email)
 
                     alert(document.querySelector("#inputEmail").value + "로 로그인 합니다");

@@ -102,18 +102,22 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> loginPOST(@RequestBody MemberDTO memberDTO, HttpSession session){
+    public Map<String, String> loginPOST(@RequestBody MemberDTO memberDTO, HttpServletRequest request){
         log.info("====================");
         log.info("로그인 입력 페이지 POST");
         log.info("====================");
 
         MemberDTO member = memberService.loginMember(memberDTO);
-        
+
         if(member != null){ // 로그인 성공 시
+            HttpSession session = request.getSession();
+            session.setAttribute("memberinfo", member.getEmail());
+            String value = (String)session.getAttribute("memberinfo");
+            log.info("==== 세션 값 : " + value);
             log.info("====================");
             log.info(member.getEmail() + "님이 로그인 되었습니다");
             log.info("====================");
-            return Map.of("result", "success");
+            return Map.of(value, "success");
         } else{ // 로그인 실패 시
             log.info("====================");
             log.info("로그인 실패");
@@ -123,7 +127,10 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public Map<String, String> logout(HttpSession session){
+    public Map<String, String> logout(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        log.info("세션 값 확인 : " + session.getAttribute("memberinfo"));
         log.info("===========================");
         log.info("로그아웃 되었습니다");
         log.info("===========================");
