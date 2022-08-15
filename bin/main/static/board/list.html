@@ -133,7 +133,6 @@
             const printList = (pageNum) => {
 
                 const printPages = ({prev, next, start, end, page}) => {
-                    console.log(prev, next, start, end, page)
                     let str = ""
 
                     if(prev){
@@ -156,16 +155,14 @@
                 }
                 
                 getList(pageNum).then(res => {
-                    console.log(res)
                     const data = res.data
                     const posts = res.data.dtoList
                     let postList = [];
                     posts.forEach(async (post) => {
-                        console.log(post)
                         postList.push(
                             `<tr class="postDetail">
                                 <td class="postId">${post.bno}</td>
-                                <td class="postTitle">${post.title}</td>
+                                <td class="postTitle"><a href="/board/detail.html" id="${post.bno}">${post.title}</a></td>
                                 <td class="postWriter">${post.member.mname}</td>
                                 <td class="postRegDate">${post.regDate}</td>
                             </tr>`)
@@ -196,6 +193,18 @@
             }, false)  // false: 캡처링 안 함
 
             printList(1)
+
+            document.querySelector("tbody").addEventListener("click", (e) =>{ 
+                
+                const target = e.target
+
+                const bno = target.getAttribute("id")
+
+                if(bno) {
+                    window.sessionStorage.setItem("bno", bno)
+                }
+
+            }, false)  // false: 캡처링 안 함
         </script>
     </body>
 </html>

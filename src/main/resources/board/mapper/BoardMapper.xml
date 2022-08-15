@@ -13,17 +13,32 @@
         order by bno desc
         limit #{skip},#{size}
     </select>
+    
     <select id="getListCount" resultType="int">
         select count(bno)
         from board
     </select>
 
+    <select id="getPost" resultMap="boardMap">
+        select b.bno, b.btitle title, b.bcontent content,
+          b.breg_date regDate, b.bupt_date modDate,
+          b.isfile isFiles, m.mname, m.email
+        from board b
+        left join member m
+        on b.email = m.email
+        where bno = #{bno}
+    </select>
+
     <resultMap id="boardMap" type="com.ktds.metadx.board.dto.BoardDTO">
       <id property="bno" column="bno"/>
       <result property="title" column="title"/>
+      <result property="content" column="content"/>
       <result property="regDate" column="regDate"/>
+      <result property="modDate" column="modDate"/>
+      <result property="isFiles" column="isFiles"/>
       <collection property="member" ofType="com.ktds.metadx.member.dto.MemberDTO">
         <result property="mname" column="mname"/>
+        <result property="email" column="email"/>
       </collection>
     </resultMap>
 

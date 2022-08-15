@@ -27,6 +27,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public BoardDTO getPost(Long bno) {
+        return mapper.getPost(bno);
+    }
+
+    @Override
     public boolean addPost(BoardDTO boardDTO) {
         return mapper.insertPost(boardDTO) > 0;
     }

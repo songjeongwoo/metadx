@@ -9,6 +9,9 @@ import com.ktds.metadx.board.dto.PageResponseDTO;
 @Transactional
 public interface BoardService {
     public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO);
+    
+    public BoardDTO getPost(Long bno);
+
     public boolean addPost(BoardDTO boardDTO);
     public BoardDTO detailPost(Long bno);
 }

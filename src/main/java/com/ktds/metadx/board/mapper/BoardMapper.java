@@ -9,6 +9,8 @@ public interface BoardMapper {
     List<BoardDTO> getList(PageRequestDTO pageRequestDTO);
     int getListCount(PageRequestDTO pageRequestDTO);
 
+    BoardDTO getPost(Long bno);
+
     int insertPost(BoardDTO boardDTO);
     BoardDTO detailPost(Long bno);
 }
