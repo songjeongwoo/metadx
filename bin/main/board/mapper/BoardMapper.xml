@@ -42,6 +42,12 @@
       </collection>
     </resultMap>
 
+    <delete id="delPost">
+        delete 
+        from board
+        where bno = #{bno}
+    </delete>
+
     <insert id="insertPost">
         insert into board (btitle, bcontent, breg_date, email, dno, tno)
           values (#{title}, #{content}, now(), 'abcd@kt.com', 1, 1)

@@ -26,4 +26,14 @@ public class BoardMapperTests {
 		
 		list.forEach(listDTO -> log.info(listDTO));
     }
+
+    @Test
+    public void testDel() {
+
+        Long bno = 153L;
+		
+		boolean result = boardMapper.delPost(bno) > 0;
+		
+		log.info(result);
+    }
 }

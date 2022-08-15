@@ -12,6 +12,8 @@ public interface BoardService {
     
     public BoardDTO getPost(Long bno);
 
+    public boolean delPost(Long bno);
+
     public boolean addPost(BoardDTO boardDTO);
     public BoardDTO detailPost(Long bno);
 }

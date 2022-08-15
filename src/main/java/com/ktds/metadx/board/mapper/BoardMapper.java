@@ -11,6 +11,8 @@ public interface BoardMapper {
 
     BoardDTO getPost(Long bno);
 
+    int delPost(Long bno);
+
     int insertPost(BoardDTO boardDTO);
     BoardDTO detailPost(Long bno);
 }

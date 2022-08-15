@@ -32,6 +32,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public boolean delPost(Long bno) {
+        return mapper.delPost(bno) > 0;
+    }
+
+    @Override
     public boolean addPost(BoardDTO boardDTO) {
         return mapper.insertPost(boardDTO) > 0;
     }
