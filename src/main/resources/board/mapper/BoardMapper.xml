@@ -50,13 +50,6 @@
 
     <insert id="insertPost">
         insert into board (btitle, bcontent, breg_date, email, dno, tno)
-          values (#{title}, #{content}, now(), 'abcd@kt.com', 1, 1)
+          values (#{title}, #{content}, now(), #{member.email}, 1, 1)
     </insert>
-
-    <select id="detailPost" resultType="com.ktds.metadx.board.dto.BoardDTO">
-        select bno, btitle title, bcontent content, breg_date regDate,
-              bupt_date modDate, isfile isFiles
-        from board
-        where bno = #{bno}
-    </select>
   </mapper>
