@@ -5,28 +5,28 @@
 
   <mapper namespace="com.ktds.metadx.board.mapper.BoardMapper">
     <select id="getList" resultMap="boardMap">
-        select b.bno, b.btitle title, b.breg_date regDate, m.mname
-        from board b
-        left join member m
-        on b.email = m.email
-        where bno > 0
-        order by bno desc
-        limit #{skip},#{size}
+      select b.bno, b.btitle title, b.breg_date regDate, m.mname
+      from board b
+      left join member m
+      on b.email = m.email
+      where bno > 0
+      order by bno desc
+      limit #{skip},#{size}
     </select>
     
     <select id="getListCount" resultType="int">
-        select count(bno)
-        from board
+      select count(bno)
+      from board
     </select>
 
     <select id="getPost" resultMap="boardMap">
-        select b.bno, b.btitle title, b.bcontent content,
-          b.breg_date regDate, b.bupt_date modDate,
-          b.isfile isFiles, m.mname, m.email
-        from board b
-        left join member m
-        on b.email = m.email
-        where bno = #{bno}
+      select b.bno, b.btitle title, b.bcontent content,
+        b.breg_date regDate, b.bupt_date modDate,
+        b.isfile isFiles, m.mname, m.email
+      from board b
+      left join member m
+      on b.email = m.email
+      where bno = #{bno}
     </select>
 
     <resultMap id="boardMap" type="com.ktds.metadx.board.dto.BoardDTO">
@@ -43,13 +43,19 @@
     </resultMap>
 
     <delete id="delPost">
-        delete 
-        from board
-        where bno = #{bno}
+      delete 
+      from board
+      where bno = #{bno}
     </delete>
 
     <insert id="insertPost">
-        insert into board (btitle, bcontent, breg_date, email, dno, tno)
-          values (#{title}, #{content}, now(), #{member.email}, 1, 1)
+      insert into board (btitle, bcontent, breg_date, email, dno, tno)
+        values (#{title}, #{content}, now(), #{member.email}, 1, 1)
     </insert>
+
+    <update id="updatePost">
+      update board
+      set btitle = #{title}, bcontent = #{content}, bupt_date = now()
+      where bno = #{bno}
+    </update>
   </mapper>

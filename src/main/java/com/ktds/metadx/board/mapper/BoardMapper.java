@@ -13,4 +13,5 @@ public interface BoardMapper {
 
     int delPost(Long bno);
     int insertPost(BoardDTO boardDTO);
+    int updatePost(BoardDTO boardDTO);
 }

@@ -7,8 +7,50 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="content"></div>
-    <div class="btnDiv"></div>
+    <div class="container">
+        <div class="row mt-3 mb-3">
+            <div class="col">
+                <label for="mname" class="form-label">작성자</label>
+                <input type="text" class="form-control" id="mname"
+                    name="mname" disabled/>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <label for="regDate" class="form-label">작성일자</label>
+                        <input type="text" class="form-control" id="regDate"
+                            name="regDate"disabled/>
+                    </div>
+                    <div class="col">
+                        <label for="modDate" class="form-label">수정일자</label>
+                        <input type="text" class="form-control" id="modDate"
+                            name="modDate" disabled/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input tpye="text" id="memberEmail" hidden disabled/>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title"
+                    name="title" disabled/>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="content" class="form-label">내용</label>
+                <textarea  class="form-control" id="content"
+                    name="content" disabled></textarea>
+            </div>
+        </div>
+        <div class="row btnDiv">
+            <div class="col d-flex justify-content-between">
+                <button class="btn btn-outline-secondary" id="postModBtn" hidden>수정</button>
+                <button class="btn btn-secondary" id="postDelBtn" hidden>삭제</button>
+            </div>
+        </div>
+    </div>
 
     <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js'></script>
@@ -21,42 +63,49 @@
         
         axios.get("/board/post/" + bno).then(res => {
             const post = res.data
-            let str = ""
-            
-            str += `<input tpye="text" value="${post.bno}"disabled/>`
-            str += `<input tpye="text" value="${post.title}"disabled/>`
-            str += `<input tpye="text" value="${post.content}"disabled/>`
-            str += `<input tpye="text" value="${post.member.mname}"disabled/>`
-            str += `<input tpye="text" value="${post.member.email}" hidden disabled/>`
-            str += `<input tpye="text" value="${post.regDate}"disabled/>`
-            str += `<input tpye="text" value="${post.modDate}"disabled/>`
-            
-            document.querySelector(".content").innerHTML = str
+
+            document.getElementById("mname").value = post.member.mname
+            document.getElementById("regDate").value = post.regDate
+            document.getElementById("modDate").value = post.modDate
+            document.getElementById("memberEmail").value = post.member.email
+            document.getElementById("title").value = post.title
+            document.getElementById("content").value = post.content
             
             // const member = window.sessionStorage.getItem("member")
             // console.log(member)
             const member = "user1@kt.com"
             if(member == post.member.email) {
-                let btn = ""
-                btn += `<a class="btn btn-outline-secondary">수정</a>`
-                btn += `<button class="btn btn-secondary" id="postDelBtn">삭제</button>`
-                document.querySelector(".btnDiv").innerHTML = btn
+
+                document.querySelector("#title").removeAttribute("disabled")
+                document.querySelector("#content").removeAttribute("disabled")
+
+                document.querySelector("#postModBtn").removeAttribute("hidden")
+                document.querySelector("#postDelBtn").removeAttribute("hidden")
             }
         })
 
-        document.querySelector(".btnDiv").addEventListener("click", (e) =>{ 
+        document.querySelector("#postDelBtn").addEventListener("click", (e) =>{ 
+            axios.delete("/board/post/delete", {params: {bno: bno}}).then(res => {
+                location.href="list.html"
+            })
+        }, false)
+
+        document.querySelector("#postModBtn").addEventListener("click", (e) =>{ 
                 
-            const target = e.target
+            console.log("gg")
+            let title = document.querySelector("#title").value
+            let content = document.querySelector("#content").value
 
-            const btn = target.getAttribute("id")
-
-            if(btn == "postDelBtn") {
-                console.log("delClick")
-                axios.delete("/board/post/delete", {params: {bno: bno}}).then(res => {
-                    location.href="list.html"
-                })
+            const data = {
+                bno: bno,
+                title: title,
+                content: content,
+                modDate: new Date()
             }
 
+            axios.put("/board/post/modify", data).then(res => {
+                location.href="list.html"
+            })
         }, false)
     </script>
 </body>

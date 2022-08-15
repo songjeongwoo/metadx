@@ -40,4 +40,9 @@ public class BoardServiceImpl implements BoardService {
     public boolean addPost(BoardDTO boardDTO) {
         return mapper.insertPost(boardDTO) > 0;
     }
+
+    @Override
+    public boolean modifyPost(BoardDTO boardDTO) {
+        return mapper.updatePost(boardDTO) > 0;
+    }
 }

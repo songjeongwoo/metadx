@@ -54,4 +54,20 @@ public class BoardMapperTests {
 		
 		log.info(result);
     }
+
+    @Test
+    public void testMod() {
+        MemberDTO member = MemberDTO.builder()
+            .mname("test").mpw("test")
+            .email("user1@kt.com").build();
+
+        BoardDTO dto = BoardDTO.builder()
+            .bno(160L).title("modTest").content("modTest")
+            .modDate(LocalDate.now()).member(member)
+            .isFiles(false).build();
+
+		boolean result = boardMapper.updatePost(dto) > 0;
+		
+		log.info(result);
+    }
 }

@@ -14,4 +14,5 @@ public interface BoardService {
 
     public boolean delPost(Long bno);
     public boolean addPost(BoardDTO boardDTO);
+    public boolean modifyPost(BoardDTO boardDTO);
 }
