@@ -11,7 +11,8 @@ public interface FileMapper {
     int insertFile(@Param("fname")String fileName, 
                 @Param("fkey")String fkey,
                 @Param("fuuid")String fuuid,
-                @Param("fdatatype")String fdatatype  
+                @Param("fdatatype")String fdatatype,
+                @Param("bno")Long bno
                 );
                 
     List<FileDTO> getFileList(Long bno);

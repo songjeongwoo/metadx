@@ -8,6 +8,6 @@ import com.ktds.metadx.board.dto.FileDTO;
 
 @Transactional
 public interface FileService {
-    public boolean insertData(String fname, String fkey, String fuuid, String fileDataType);
+    public boolean insertData(String fname, String fkey, String fuuid, String fileDataType, Long bno);
     public List<FileDTO> getFileList(Long bno);
 }

@@ -35,7 +35,7 @@ import lombok.extern.log4j.Log4j2;
 
 @RestController
 @Log4j2
-@RequestMapping("/board")
+@RequestMapping("/file")
 @RequiredArgsConstructor
 public class FileController {
 
@@ -50,10 +50,9 @@ public class FileController {
     public void getInsertDataPage(){
     }
 
-    // @ResponseBody
     @PostMapping("/register")
-    public void insertData(FileDTO postDTO){
-        MultipartFile[] files = postDTO.getFiles();
+    public void insertData(FileDTO fileDTO){
+        MultipartFile[] files = fileDTO.getFiles();
                 
         if(files != null && files.length > 0){
 
@@ -73,15 +72,20 @@ public class FileController {
 
                 savedFileName = uuid+"_"+savedFileName;
 
-                String fkey = postDTO.getFkey();
+                String fkey = fileDTO.getFkey();
                 String fuuid = uuid;
                 String fileDataType = ext;
 
+                if(fileDataType.equals("exe") || fileDataType.equals("txt")){
+                    log.info("지원하지 않는 확장자입니다.");
+                    continue;
+                }
+
                 savedFileName += ".dat";
 
-                log.info(service.insertData(fname, fkey, fuuid, fileDataType));
+                log.info(service.insertData(fname, fkey, fuuid, fileDataType, fileDTO.getBno()));
 
-                byte[] pwd = postDTO.getFkey().getBytes();
+                byte[] pwd = fileDTO.getFkey().getBytes();
                 // 패스워드를 100byte까지 입력 가능
                 byte[] tempArr = new byte[100]; 
 
@@ -120,16 +124,16 @@ public class FileController {
     }
     
     @PostMapping("/fileDownload")
-    public ResponseEntity<byte[]> fileDownload(FileDTO postDTO, @RequestParam(value = "user_key",required = false) String userkey)throws Exception{
+    public ResponseEntity<byte[]> fileDownload(FileDTO fileDTO, @RequestParam(value = "user_key",required = false) String userkey)throws Exception{
 
-        if(!userkey.equals(postDTO.getFkey())){
+        if(!userkey.equals(fileDTO.getFkey())){
             log.info("비번 불일치!!");
             return null;
         }
         String outputFolderPath = "C:\\fileDownload\\";
 
-        String inputFilePath = "C:\\upload\\" + postDTO.getFuuid() + "_" + postDTO.getFname()+ ".dat";
-        String outputFilePath = postDTO.getFname()+ "." + postDTO.getFdatatype();
+        String inputFilePath = "C:\\upload\\" + fileDTO.getFuuid() + "_" + fileDTO.getFname()+ ".dat";
+        String outputFilePath = fileDTO.getFname()+ "." + fileDTO.getFdatatype();
         byte[] buffer = new byte[1024*1000];
 
         log.info("비번 일치!!");
@@ -169,11 +173,11 @@ public class FileController {
         bos.close();
         byte[] data  = bos.toByteArray();
 
-        String fileName = URLEncoder.encode(postDTO.getFname(), "UTF-8");
+        String fileName = URLEncoder.encode(fileDTO.getFname(), "UTF-8");
         
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type","application/octet-stream");
-        responseHeaders.add("Content-disposition", "attachment; filename=" + fileName + "." + postDTO.getFdatatype());
+        responseHeaders.add("Content-disposition", "attachment; filename=" + fileName + "." + fileDTO.getFdatatype());
 
         
 

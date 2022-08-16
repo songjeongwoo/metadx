@@ -53,6 +53,11 @@ public class BoardMapperTests {
 		boolean result = boardMapper.insertPost(dto) > 0;
 		
 		log.info(result);
+
+        Long bno = boardMapper.insertPost(dto);
+        log.info("=======================");
+        log.info(dto.getBno());
+        log.info("=======================");
     }
 
     @Test

@@ -20,8 +20,8 @@ public class FileServiceImpl implements FileService {
     private final FileMapper mapper;
     
     @Override
-    public boolean insertData(String fname, String fkey, String fuuid, String fileDataType) {
-        return mapper.insertFile(fname, fkey, fuuid, fileDataType) > 0;
+    public boolean insertData(String fname, String fkey, String fuuid, String fileDataType, Long bno) {
+        return mapper.insertFile(fname, fkey, fuuid, fileDataType, bno) > 0;
     }
 
     @Override

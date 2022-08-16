@@ -23,6 +23,7 @@ public class FileDTO {
     private String fdatatype;
     private String fuuid;
 
+    // private BoardDTO board;
     private Long bno;
 
     private MultipartFile[] files;

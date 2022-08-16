@@ -13,6 +13,6 @@ public interface BoardService {
     public BoardDTO getPost(Long bno);
 
     public boolean delPost(Long bno);
-    public boolean addPost(BoardDTO boardDTO);
+    public Long addPost(BoardDTO boardDTO);
     public boolean modifyPost(BoardDTO boardDTO);
 }

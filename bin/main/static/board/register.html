@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,29 +7,35 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Upload Test</h1>
-    <form method="post" action="/board/register" enctype="multipart/form-data">
-
-        <input type="text" name="fkey" value ="1234567890"><br><br><br><br>
-        <input type="file" name="files" multiple/><br><br><br><br>
-
-        <button class="fileUploadBtn">Upload</button>
-
-    </form>
-
     <div class="container">
         <div class="row">
             <div class="col">
                 <div class="row mb-3">
-                    <label for="title" class="form-label">제목</label>
-                    <input type="text" class="form-control" id="title" name="title"/>
+                    <div class="col">
+                        <label for="title" class="form-label">제목</label>
+                        <input type="text" class="form-control" id="title" name="title"/>
+                    </div>
                 </div>
+                <form class="row mb-3 justify-content-end" id="filesForm">
+                    <div class="col">
+                        <label for="fkey" class="form-label">파일 비밀번호</label>
+                        <input class="form-control" type="text" id="fkey" name="fkey"/>
+                    </div>
+                    <div class="col">
+                        <label for="files" class="form-label h-75"></label>
+                        <input type="file" id="files" name="files" multiple/>
+                    </div>
+                </form>
                 <div class="row mb-3">
-                    <label for="content" class="form-label">내용</label>
-                    <textarea  class="form-control" id="content" name="content"></textarea>
+                    <div class="col">
+                        <label for="content" class="form-label">내용</label>
+                        <textarea class="form-control" id="content" name="content"></textarea>
+                    </div>
                 </div>
-                <div class="row justify-content-end">
-                    <button class="btn btn-secondary" id="addPostBtn">등록</button>
+                <div class="row">
+                    <div class="col d-flex justify-content-end">
+                        <button class="btn btn-secondary" id="addPostBtn">등록</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,7 +57,7 @@
         // console.log(member)
         const member = "user1@kt.com"
         
-        document.querySelector("#addPostBtn").addEventListener("click", (e) =>{
+        document.querySelector("#addPostBtn").addEventListener("click", (e) => {
 
             let title = document.querySelector("#title").value
             let content = document.querySelector("#content").value
@@ -66,11 +70,26 @@
                 },
                 regDate: new Date()
             }
-
+            
             axios.post("/board/post/add", data).then(res => {
-                location.href="list.html"
+                
+                const bno = res.data.result
+                const files = document.querySelector("#files").files
+                let form = document.querySelector("#filesForm") //form DOM element
+                let formData = new FormData(form)
+            
+                formData.append("bno", bno)
+                    
+                if(files.length > 0) {
+                    axios.post("/file/register", formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(res => {
+                        location.href="list.html"
+                    })
+                }
             })
-
         }, false)
     </script>
 </body>

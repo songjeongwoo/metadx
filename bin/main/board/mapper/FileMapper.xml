@@ -5,8 +5,8 @@
 
   <mapper namespace="com.ktds.metadx.board.mapper.FileMapper" >
     <insert id="insertFile">
-        insert into files(fname, fkey, fuuid, fdatatype) 
-        values (#{fname}, #{fkey}, #{fuuid}, #{fdatatype})
+        insert into files(fname, fkey, fuuid, fdatatype, bno) 
+        values (#{fname}, #{fkey}, #{fuuid}, #{fdatatype}, #{bno})
     </insert>
 
     <select id="getFileList" resultType="com.ktds.metadx.board.dto.FileDTO">
