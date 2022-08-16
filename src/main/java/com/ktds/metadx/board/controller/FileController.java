@@ -6,11 +6,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,11 +120,11 @@ public class FileController {
     }
     
     @PostMapping("/fileDownload")
-    public void fileDownload(FileDTO postDTO, @RequestParam(value = "user_key",required = false) String userkey)throws Exception{
+    public ResponseEntity<byte[]> fileDownload(FileDTO postDTO, @RequestParam(value = "user_key",required = false) String userkey)throws Exception{
 
         if(!userkey.equals(postDTO.getFkey())){
             log.info("비번 불일치!!");
-            return;
+            return null;
         }
         String outputFolderPath = "C:\\fileDownload\\";
 
@@ -144,7 +147,9 @@ public class FileController {
         }
 
         InputStream fin = new FileInputStream(inputFilePath);
-        FileOutputStream fos = new FileOutputStream(outputFolderPath + outputFilePath);
+        //FileOutputStream fos = new FileOutputStream(outputFolderPath + outputFilePath);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         // 패스워드 100byte 배열 선언
         byte[] pwBuffer = new byte[100];
@@ -158,9 +163,20 @@ public class FileController {
 
             if(count == -1){break;}
 
-            fos.write(buffer, 0, count);
+            bos.write(buffer, 0, count);
 
         }
-        fos.close();
+        bos.close();
+        byte[] data  = bos.toByteArray();
+
+        String fileName = URLEncoder.encode(postDTO.getFname(), "UTF-8");
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type","application/octet-stream");
+        responseHeaders.add("Content-disposition", "attachment; filename=" + fileName + "." + postDTO.getFdatatype());
+
+        
+
+        return ResponseEntity.ok().headers(responseHeaders).body(data);
     }
 }

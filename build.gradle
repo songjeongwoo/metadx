@@ -29,6 +29,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+	implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.15'
+
 }
 
 tasks.named('test') {
