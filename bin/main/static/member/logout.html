@@ -28,6 +28,9 @@
                                                 <a class="btn btn-primary b2">게시판</a>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <a class="btn btn-primary b3">회원탈퇴</a>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="btn btn-primary b1" href="index.html">Logout</a>
                                             </div>
                                         </form>
@@ -81,6 +84,14 @@
                     window.localStorage.removeItem(email);
                     self.location = "http://localhost:8080/member/login.html"
                 })
+
+            }, false)
+
+            const obj = {mid:'aaa', email:email}
+
+            document.querySelector(".b3").addEventListener("click", (even) => {
+
+                self.location = "http://localhost:8080/member/delete.html"
 
             }, false)
         </script>

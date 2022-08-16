@@ -69,6 +69,8 @@
         <script>
             document.querySelector(".b1").addEventListener("click", (even) => {
                 
+                console.log(even.data);
+
                 event.preventDefault();
                 event.stopPropagation();
 
@@ -83,15 +85,24 @@
                 console.log(member)
 
                 axios.post("/member/login", member).then(res => {
-
+                    
                     console.log(res.data);
 
-                    
-                    
-                    window.localStorage.setItem('email', member.email)
+                    const memberType = res.data.result
 
-                    alert(document.querySelector("#inputEmail").value + "로 로그인 합니다");
-                    self.location = "http://localhost:8080/member/logout.html"
+                    if(memberType == 'admin'){
+                        window.localStorage.setItem('email', member.email)
+                        alert("관리자 권한 계정" + document.querySelector("#inputEmail").value + "로 로그인 합니다");
+                        self.location = "http://localhost:8080/admin/index.html"
+                    }else if(memberType == 'member'){
+                        window.localStorage.setItem('email', member.email)
+                        alert("회원 계정" + document.querySelector("#inputEmail").value + "로 로그인 합니다");
+                        self.location = "http://localhost:8080/member/logout.html"
+                    }else{
+                        alert("로그인 실패");
+                        self.location = "http://localhost:8080/member/login.html"
+                    }
+                    
                 })
 
             }, false)

@@ -18,27 +18,21 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Password Recovery</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">회원 탈퇴</h3></div>
                                     <div class="card-body">
-                                        <div class="small mb-3 text-muted">Enter your email address and we will send you a link to reset your password.</div>
+                                        <div class="small mb-3 text-muted">Enter your email address and we will delete your database.</div>
                                         <form>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
                                                 <label for="inputEmail">Email address</label>
                                             </div>
-                                            <div>
-                                                <button class="confirmbtn">인증번호 보내기</button>
-                                            </div><br>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="epw" type="password"/>
-                                                <label for="epw" id = emconfirmchk>인증번호</label>
+                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+                                                <label for="inputPassword">Password</label>
                                             </div>
-                                            <div>
-                                                <button class="confirmbtn2">인증번호 확인</button>
-                                            </div><br>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a class="small" href="login.html">Return to login</a>
-                                                <a class="btn btn-primary reset" href="login.html">Reset Password</a>
+                                                <a class="btn btn-primary delete" href="login.html">회원탈퇴</a>
                                             </div>
                                         </form>
                                     </div>
@@ -72,54 +66,22 @@
 </html>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    document.querySelector(".confirmbtn").addEventListener("click", (event) => {
+    document.querySelector(".delete").addEventListener("click", (event) => {
 
         event.preventDefault();
         event.stopPropagation();
 
         email = document.querySelector("#inputEmail").value;
+        mpw = document.querySelector("#inputPassword").value;
 
-        axios.post("/member/mail", email).then(res => {
-            alert(email + "로 메일을 보냅니다.");
-            console.log(res.data)
-
-        })
-
-    }, false)
-</script>
-
-<script>
-    document.querySelector(".confirmbtn2").addEventListener("click", (event) => {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    code = document.querySelector('#epw').value;
-
-    axios.post("/member/mail_chk", code).then(res =>{
-        if(res.data == code){
-            alert("인증이 완료되었습니다.")
-            console.log("인증완료")
-        }else{
-            alert("인증이 실패하였습니다.")
-            console.log("인증실패")
+        const member = {
+            "email" : email,
+            "mpw" : mpw
         }
-    })
-    }, false)
-</script>
-<script>
-    document.querySelector(".reset").addEventListener("click", (event) => {
 
-        email = document.querySelector("#inputEmail").value;
-
-        event.preventDefault();
-        event.stopPropagation();
-
-        const obj = {mid:'aaa', email:email}
-
-        axios.post("/member/pwreset", obj).then(res =>{
-            alert(email + "계정 비밀번호가 초기화되었습니다. 초기비밀번호 : 0000");
-            location.href="login.html"
+        axios.post("/member/delete", member).then(res =>{
+            alert(email + "계정을 삭제합니다.");
+            location.href = "login.html"
         })
 
     }, false)

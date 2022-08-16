@@ -28,4 +28,18 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.loginMember(member);
     }
 
+    @Override
+    public int reset(MemberDTO member) {
+        log.info("======== 패스워드 초기화 ==========");
+        log.info(memberMapper.pwReset(member));
+        return memberMapper.pwReset(member);
+    }
+
+    @Override
+    public int deleteMember(MemberDTO member) {
+        log.info("======== 회원탈퇴 ==========");
+        log.info(memberMapper.deleteMember(member));
+        return memberMapper.deleteMember(member);
+    }
+
 }

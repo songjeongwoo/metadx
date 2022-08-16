@@ -64,7 +64,6 @@ public class MemberController {
         try {
             email = URLDecoder.decode(email, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return Map.of("result", "fail");
         }
@@ -110,14 +109,26 @@ public class MemberController {
         MemberDTO member = memberService.loginMember(memberDTO);
 
         if(member != null){ // 로그인 성공 시
-            HttpSession session = request.getSession();
-            session.setAttribute("memberinfo", member.getEmail());
-            String value = (String)session.getAttribute("memberinfo");
-            log.info("==== 세션 값 : " + value);
-            log.info("====================");
-            log.info(member.getEmail() + "님이 로그인 되었습니다");
-            log.info("====================");
-            return Map.of(value, "success");
+
+            if(member.isIsadmit() == true)
+            {
+                log.info("========== 관리자 권한 로그인 ========" + member.isIsadmit());
+                log.info("====================");
+                log.info(member.getEmail() + "님이 로그인 되었습니다");
+                log.info("====================");
+                
+                return Map.of("result", "admin");
+            }
+            else{
+                HttpSession session = request.getSession();
+                session.setAttribute("memberinfo", member.getEmail());
+                String value = (String)session.getAttribute("memberinfo");
+                log.info("==== 세션 값 : " + value);
+                log.info("=========회원 전용 로그인 ===========" + member.isIsadmit());
+                log.info(member.getEmail() + "님이 로그인 되었습니다");
+                log.info("====================");
+                return Map.of("result", "member");
+            }
         } else{ // 로그인 실패 시
             log.info("====================");
             log.info("로그인 실패");
@@ -135,6 +146,35 @@ public class MemberController {
         log.info("로그아웃 되었습니다");
         log.info("===========================");
         session.invalidate();
+        return Map.of("result", "success");
+    }
+
+    @PostMapping("pwreset")
+    public Map<String, String> pwReset(@RequestBody MemberDTO memberDTO){
+        
+        log.info("=================");
+        log.info(memberDTO);
+
+        if(memberDTO.getEmail() != null){
+            log.info("=======패스워드 초기화========");
+            int count = memberService.reset(memberDTO);
+            log.info(count);
+            return Map.of("result", "success");
+        }else{
+            log.info("=========패스워드 초기화 실패=======");
+            return Map.of("result", "fail");
+        }
+    }
+
+    @PostMapping("delete")
+    public Map<String, String> deleteMember(@RequestBody MemberDTO memberDTO){
+        
+        log.info("====== delete Controller ==========");
+        log.info(memberDTO);
+
+        memberService.deleteMember(memberDTO);
+        log.info("=======회원 탈퇴 완료======");
+
         return Map.of("result", "success");
     }
 

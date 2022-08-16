@@ -20,4 +20,10 @@ public class MemberDTO {
     private Long jno;
     private Long tno;
 
+    // 관리자 회원 여부(관리자 일시 1)
+    private boolean isadmit;
+
+    // 회원 잠금 여부
+    private boolean islock;
+
 }
