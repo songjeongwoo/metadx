@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.log4j.Log4j2;
@@ -62,37 +62,20 @@ public class CaptchaController {
         return bos.toByteArray();
     }
 
-    @GetMapping("/captcha")
-    public String captcha(HttpServletRequest request) {
-        
-        /* 게시물 업/다운로드 코드에 추가될 코드 */
-        HttpSession session = request.getSession();
-        session.removeAttribute("failCnt");
-        session.setAttribute("failCnt", 0);
-
-        return "captcha.html";
-    }
-
+    @ResponseBody
     @PostMapping("/captcha")
-    public Model captchaNumCheck(HttpServletRequest request, Model model) {
+    public boolean captchaNumCheck(HttpServletRequest request, @RequestBody String inputCaptchaNum) {
         HttpSession session = request.getSession();
-        String captchaNum = (String)session.getAttribute("captchaNum");
-        String captchaNumCheck = request.getParameter("captchaNum");
-        
-        if(captchaNum.equals(captchaNumCheck)) {
-            model.addAttribute("result", "success");
+        boolean isSuccess = false;
+        String realCaptchaNum = (String)session.getAttribute("captchaNum");
+
+        inputCaptchaNum = inputCaptchaNum.substring(0, inputCaptchaNum.length()-1);
+
+        if (realCaptchaNum.equals(inputCaptchaNum)) {
+            isSuccess = true;
+            return isSuccess;
         } else {
-            model.addAttribute("result", "fail");
-            
-            int failCnt = (Integer)session.getAttribute("failCnt");
-            session.setAttribute("failCnt", ++failCnt);
-
-            if(failCnt == 3) {
-                log.info("member 메소드(계정잠금) 호출");
-            }
+            return isSuccess;
         }
-
-        return model;
-
     }
 }

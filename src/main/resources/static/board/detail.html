@@ -32,6 +32,22 @@
         <input tpye="text" id="memberEmail" hidden disabled/>
         <div class="row mb-3">
             <div class="col">
+                <div class="row">
+                    <div class="col d-flex justify-content-end">
+                        <div class="row">
+                            <div class="col">
+                                <input class="form-control w-100 userKey" type="text"
+                                        name="user_key" placeholder="파일 비밀번호 입력" hidden>
+                                <button class="btn btn-secondary" id="isHuman">인간인증</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col download"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
                 <label for="title" class="form-label">제목</label>
                 <input type="text" class="form-control" id="title"
                     name="title" disabled/>
@@ -48,6 +64,28 @@
             <div class="col d-flex justify-content-between">
                 <button class="btn btn-outline-secondary" id="postModBtn" hidden>수정</button>
                 <button class="btn btn-secondary" id="postDelBtn" hidden>삭제</button>
+            </div>
+        </div>
+    </div>
+    <div id='modal' class='modal fade' tabindex='-1'>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'></div>
+                <div class='modal-body text-center' id='modalContent'>
+                    <div class="row mb-3">
+                        <div class="col" id="makeCaptcha"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="captchaBtn"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <small id="failCntMsg" class="text-danger"></small>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer justify-content-center' id='modalBtn'>
+                </div>
             </div>
         </div>
     </div>
@@ -71,6 +109,30 @@
             document.getElementById("title").value = post.title
             document.getElementById("content").value = post.content
             
+            axios.get("/file/filelist", {params : {bno : bno}}).then(res => {                                    
+                const files = res.data
+                let fileList = [];
+                files.forEach(async (file, idx) => {
+                    fileList.push(`
+                        <div class="row mb-1">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <input class="form-control" style = "border:0 solid black"
+                                            type="text" name="fname", value = ${file.fname}.dat readonly>
+                                    </div>
+                                    <div class="col-3">
+                                        <button class="btn btn-secondary w-100 downBtn" id="downBtn${idx}"
+                                            data-fname="${file.fname}" data-fuuid="${file.fuuid}"
+                                            data-fdatatype="${file.fdatatype}" hidden>다운로드</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`)
+                })
+                document.querySelector(".download").innerHTML = fileList.join('')
+            })
+
             // const member = window.sessionStorage.getItem("member")
             // console.log(member)
             const member = "user1@kt.com"
@@ -91,8 +153,6 @@
         }, false)
 
         document.querySelector("#postModBtn").addEventListener("click", (e) =>{ 
-                
-            console.log("gg")
             let title = document.querySelector("#title").value
             let content = document.querySelector("#content").value
 
@@ -106,6 +166,88 @@
             axios.put("/board/post/modify", data).then(res => {
                 location.href="list.html"
             })
+        }, false)
+        
+        const modal = new bootstrap.Modal(document.querySelector("#modal"))
+
+        document.querySelector("#isHuman").addEventListener("click", (e) => {
+            axios.get("../makeCaptcha").then(res => {
+                document.querySelector("#makeCaptcha").innerHTML = `<img src="../makeCaptcha"/>`
+            })
+            
+            document.querySelector("#captchaBtn").innerHTML =
+                `<input type="text" id="captchaNum" placeholder="위 숫자들을 입력하세요."/>
+                <button class="btn btn-secondary captchaBtn">제출</button>`
+            document.querySelector("#captchaNum").value = ""
+
+            document.querySelector(".modal-header").innerHTML =
+                `<h6 id='modalTitle'>캡챠 인증</h6>
+                <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+            modal.show()
+
+            let failCnt = 0
+
+            document.querySelector('.captchaBtn').addEventListener("click", (e) => {
+                const inputCaptchaNum = document.querySelector('#captchaNum').value
+                data = inputCaptchaNum
+                axios.post("../captcha", data).then(res => {
+                    const isSuccess = res.data
+                    if(isSuccess) {
+                        modal.hide()
+                        document.querySelector("#isHuman").setAttribute("hidden", "hidden")
+                        document.querySelector(".userKey").removeAttribute("hidden")
+                        for(i = 0; i < document.querySelectorAll('.downBtn').length; i++) {
+                            document.querySelector("#downBtn" + i).removeAttribute("hidden")
+                        }
+
+                    } else {                            
+                        failCnt += 1
+                        document.querySelector("#failCntMsg").innerHTML = failCnt + "번 틀렸습니다(" + failCnt + "/3)."
+                        if(failCnt == 3) {
+                            window.localStorage.removeItem('email')
+                            window.localStorage.removeItem('accessToken')
+                            window.localStorage.removeItem('refreshToken')
+                            self.location = "http://localhost:8080/member/login.html"
+                        }
+                    }
+                })
+            }, false)
+        })
+
+        document.querySelector('.download').addEventListener("click", (e) => {
+            console.log("aaaaaaaaaaaa")
+            const target = e.target
+            const classes = target.getAttribute("class")
+
+            if(classes == "btn btn-secondary w-100 downBtn") {
+                const fname = target.getAttribute("data-fname")
+                const fuuid = target.getAttribute("data-fuuid")
+                const fdatatype = target.getAttribute("data-fdatatype")
+                const userKey = document.querySelector('.userKey').value
+                
+                if(userKey) {
+                    data = {
+                        fname: fname,
+                        fuuid: fuuid,
+                        fdatatype: fdatatype,
+                        userKey: userKey
+                    }
+
+                    axios.post("/file/fileDownload?userKey="+userKey, data).then(res => {
+                        console.log("download")
+                        console.log(res.data)
+                    })
+                    
+                } else {
+                    document.querySelector(".modal-header").innerHTML =
+                        `<b id='modalTitle'>경고</b>
+                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+
+                    document.querySelector("#modalContent").innerHTML = 
+                        `<b class="text-danger">비밀번호를 입력하세요.</b>`
+                    modal.show()
+                }
+            }
         }, false)
     </script>
 </body>
