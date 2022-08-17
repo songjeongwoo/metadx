@@ -16,5 +16,5 @@ public interface FileMapper {
                 );
                 
     List<FileDTO> getFileList(Long bno);
-    
+    String getFileFkey(String fuuid);
 }
