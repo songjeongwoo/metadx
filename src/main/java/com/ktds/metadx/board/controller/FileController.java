@@ -1,29 +1,22 @@
 package com.ktds.metadx.board.controller;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.ktds.metadx.board.dto.FileDTO;
 
@@ -45,7 +38,7 @@ public class FileController {
     public List<FileDTO> getFileList(@RequestParam(value = "bno",required = false) Long bno) {
         return service.getFileList(bno);
     }
-    
+
     @GetMapping("/register")
     public void getInsertDataPage(){
     }
@@ -122,36 +115,24 @@ public class FileController {
     @GetMapping("/fileDownload")
     public void getfleDownload(){
     }
-    
-    @PostMapping("/fileDownload")
-    public ResponseEntity<byte[]> fileDownload(FileDTO fileDTO, @RequestParam(value = "user_key",required = false) String userkey)throws Exception{
 
-        if(!userkey.equals(fileDTO.getFkey())){
+    @PostMapping("/fileDownload")
+    public ResponseEntity<byte[]> fileDownload(FileDTO fileDTO, @RequestParam(value = "user_key",required = false) String userkey,
+                                            @RequestParam(value = "fuuid",required = false) String fuuid)throws Exception{
+
+        String realFkey = service.getFileFkey(fuuid);
+
+        if(!userkey.equals(realFkey)){
             log.info("비번 불일치!!");
             return null;
         }
-        String outputFolderPath = "C:\\fileDownload\\";
 
         String inputFilePath = "C:\\upload\\" + fileDTO.getFuuid() + "_" + fileDTO.getFname()+ ".dat";
-        String outputFilePath = fileDTO.getFname()+ "." + fileDTO.getFdatatype();
         byte[] buffer = new byte[1024*1000];
 
         log.info("비번 일치!!");
 
-        File Folder = new File(outputFolderPath);
-
-        // 해당 디렉토리가 없을경우 디렉토리를 생성
-        if (!Folder.exists()) {
-            try{
-                Folder.mkdir(); //폴더 생성
-                } 
-                catch(Exception e){
-                e.getStackTrace();
-            }        
-        }
-
         InputStream fin = new FileInputStream(inputFilePath);
-        //FileOutputStream fos = new FileOutputStream(outputFolderPath + outputFilePath);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -180,7 +161,6 @@ public class FileController {
         responseHeaders.add("Content-disposition", "attachment; filename=" + fileName + "." + fileDTO.getFdatatype());
 
         
-
         return ResponseEntity.ok().headers(responseHeaders).body(data);
     }
 }

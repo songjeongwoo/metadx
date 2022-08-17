@@ -10,9 +10,16 @@
     </insert>
 
     <select id="getFileList" resultType="com.ktds.metadx.board.dto.FileDTO">
-        select fno, fname, fdatatype, fuuid, fkey, bno
+        select fno, fname, freg_date, fupt_date, fdatatype, fuuid, bno
         from files
         where bno = #{bno}
         order by fno desc
     </select>
+
+    <select id="getFileFkey" resultType="String">
+      select fkey
+      from files
+      where fuuid = #{fuuid}
+    </select>
+
   </mapper>

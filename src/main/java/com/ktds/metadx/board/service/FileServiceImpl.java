@@ -29,4 +29,9 @@ public class FileServiceImpl implements FileService {
         return mapper.getFileList(bno);
     }
 
+    @Override
+    public String getFileFkey(String fuuid){
+        return mapper.getFileFkey(fuuid);
+    }
+
 }
