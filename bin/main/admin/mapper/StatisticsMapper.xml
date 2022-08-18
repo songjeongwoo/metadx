@@ -3,17 +3,18 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
   <mapper namespace="com.ktds.metadx.admin.mapper.StatisticsMapper">
     <select id="getList" resultType="com.ktds.metadx.admin.dto.AdminDTO">
-        SELECT h.hno, h.hbool, h.hreg_date, h.bno, h.email,
+        SELECT h.hno, h.bno, h.email, h.hbool, h.hreg_date, 
         CASE 
           when d.dno then d.dname
           ELSE '부서 미지정'
-          END AS '본부',
+          END AS 'department',
         CASE 
           when t.tno then t.tname
           ELSE '팀 미지정'
-          END AS '팀'
+          END AS 'team'
         FROM history h
         LEFT OUTER JOIN board b 
         ON h.bno = b.bno
@@ -21,11 +22,12 @@
         ON b.dno = d.dno
         LEFT OUTER JOIN team t
         ON b.tno = t.tno
-        ORDER BY h.hno;
+        ORDER BY h.hno DESC;
     </select>
 
-    <select id="getCountDownloads" resultType="int">
-        SELECT count(hbool) FROM history
+    <select id="getCountDownloads" resultType="com.ktds.metadx.admin.dto.AdminCountDTO">
+        SELECT MONTH(hreg_date) no, count(hbool) count
+        FROM history
         WHERE hbool > 0
           AND YEAR(hreg_date) = YEAR(NOW())
         GROUP BY MONTH(hreg_date);
@@ -33,8 +35,28 @@
 
     <select id="getLockList" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
         select * from memberlock
-        where islock > 0
         order by lockdate desc
+    </select>
+
+    <select id="getLockAccount" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
+        SELECT l.lno lno, m.email email, m.islock islock, MAX(l.lockdate) lockdate
+        FROM member m
+        LEFT OUTER JOIN memberlock l
+          ON m.email = l.email
+        WHERE m.islock = 1
+        GROUP BY m.email
+        ORDER BY l.lno DESC;
+    </select>
+    
+    <update id="changeLockAccount">
+        UPDATE member SET islock = 0 WHERE email = #{email};
+    </update>
+
+    <select id="getCountLocks" resultType="com.ktds.metadx.admin.dto.AdminCountDTO">
+        SELECT MONTH(lockdate) no, COUNT(lockdate) count 
+        FROM memberlock
+        WHERE YEAR(lockdate) = YEAR(NOW())
+        ORDER BY MONTH(lockdate) DESC;
     </select>
 
   </mapper>
