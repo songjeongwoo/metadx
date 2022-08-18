@@ -7,120 +7,127 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Tables - SB Admin</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="../css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+    <body>
+        <header class="header text-light">
+            <div class='row justify-content-between'>
+                <div class='col-15'>
+                    <a class='logoBtn' href='/board/list.html'>
+                        <img src='../res/logo.png' id='logoImg' alt='로고이미지'>
+                    </a>
                 </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Tables</h1>
-                        <!-- <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Tables</li>
-                        </ol> -->
-                        <!-- <div class="card mb-4">
-                            <div class="card-body">
-                                DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
-                                <a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
-                                .
-                            </div>
-                        </div> -->
-                        <div class="card mb-4">
-                            <!-- <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                DataTable Example
-                            </div> -->
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>번호</th>
-                                            <th>제목</th>
-                                            <th>작성자</th>
-                                            <th>작성일자</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>번호</th>
-                                            <th>제목</th>
-                                            <th>작성자</th>
-                                            <th>작성일자</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="dataTable-bottom">
-                                <a href="register.html" class="btn btn-secondary">자료등록</a>
-                                <nav class="dataTable-pagination">
-                                    <ul class="pageDiv"></ul>
-                                </nav>
-                            </div>
-                        </div>
+            </div>
+        </header>
+        <div class="container px-4">
+            <h1 class="mt-4">MetaDx</h1>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <table>
+                        <thead>
+                            <tr class="thead">
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일자</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <div class="mt-3 mb-3 d-flex justify-content-end">
+                        <a href="register.html" class="btn btn-secondary">자료등록</a>
                     </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
+                    <div class="d-flex justify-content-center">
+                        <nav class="dataTable-pagination">
+                            <ul class="pageDiv"></ul>
+                        </nav>
                     </div>
-                </footer>
+                </div>
             </div>
         </div>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
         <style>
+            .header {
+                background-color: #16355D !important;
+                height: 5rem;
+            }
+
+            .logoBtn, #logoImg {
+                margin-left: 1.5rem;
+                height: 5rem;
+                /* height: 3rem; */
+                /* margin-top: 1.5rem; */
+            }
+
+            body {
+                /* color: #484848; */
+                color: #22518F !important;
+            }
+
+            .card {
+                background-color: #fff;
+                background-clip: border-box;
+                border: 1px solid rgba(0, 0, 0, 0.125);
+                border-radius: 0.25rem;
+            }
+            
+            table {
+                width: 100%;
+            }
+
+            .thead {
+                /* border-bottom: 2px solid black; */
+                border-bottom: 2px solid #22518F;
+            }
+            
+            thead, tbody, tfoot, tr, td, th {
+                text-align: left;
+                padding-left: 0.75rem;
+                border: 1px solid rgba(0, 0, 0, 0.125);
+                height: 3rem;             
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            .btn {
+                background-color: #22518F !important;
+            }
+
             .pageDiv {
                 display: flex;
                 margin-right: 1rem;
-                background-color: white;
-                color: black;
+                background-color: #fff;
+                color: #484848;
+            }
+
+            .pageDiv:hover {
+                cursor: pointer;
             }
     
             .pageDiv div {
                 margin-bottom: 2rem;
                 padding: 0.5rem;
-                border: 1px solid black;
+                /* border: 1px solid rgba(0, 0, 0, 0.125); */
+                border: 1px solid #22518F;
             }
         </style>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="../js/datatables-simple-demo.js"></script>
+        <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js'></script>
+        <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
+        <link rel='stylesheet' href='http://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>
         
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
@@ -130,7 +137,6 @@
             }
 
             const pageDiv = document.querySelector(".pageDiv")
-
             const printList = (pageNum) => {
 
                 const printPages = ({prev, next, start, end, page}) => {
@@ -142,16 +148,15 @@
 
                     for(let i = start; i <= end ; i++){
                         if(i == pageNum) {
-                            str += `<div id=${i} style="color:white; background:black" data-page=${i}>${i}</div>` 
+                            str += `<div class="mb-0" id=${i} style="color:white; background:#22518F" data-page=${i}>${i}</div>` 
                         } else {
-                            str += `<div id=${i} data-page=${i}>${i}</div>`
+                            str += `<div class="mb-0" id=${i} data-page=${i}>${i}</div>`
                         }
                     }
-
                     if(next){
                         str += `<div data-page=${end+1}>다음</div>`
                     }
-                    
+
                     pageDiv.innerHTML = str
                 }
                 
@@ -173,16 +178,12 @@
 
                     // 페이지 출력
                     printPages(data)
-
                 }) // end then
-
             } // end printList
 
             // js에서 addEventListener는 무조건 파라미터로 이벤트(e)를 받는다.
             document.querySelector(".pageDiv").addEventListener("click", (e) =>{ 
-                
                 const target = e.target
-
                 const pageNum = target.getAttribute("data-page")
 
                 if(!pageNum){
@@ -196,9 +197,7 @@
             printList(1)
 
             document.querySelector("tbody").addEventListener("click", (e) =>{ 
-                
                 const target = e.target
-
                 const bno = target.getAttribute("id")
 
                 if(bno) {
