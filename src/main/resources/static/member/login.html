@@ -89,16 +89,24 @@
                     console.log(res.data);
 
                     const memberType = res.data.result
+                    const accessToken = res.data.accessToken
+                    const refreshToken = res.data.refreshToken
 
                     if(memberType == 'admin'){
-                        window.localStorage.setItem('email', member.email)
+                        localStorage.setItem("memberType", memberType);
+                        localStorage.setItem("accessToken", accessToken);
+                        localStorage.setItem("refreshToken", refreshToken);
+                        localStorage.setItem("email", member.email);
                         alert("관리자 권한 계정" + document.querySelector("#inputEmail").value + "로 로그인 합니다");
                         self.location = "http://localhost:8080/admin/index.html"
                     }else if(memberType == 'member'){
-                        window.localStorage.setItem('email', member.email)
+                        localStorage.setItem("memberType", memberType);
+                        localStorage.setItem("accessToken", accessToken);
+                        localStorage.setItem("refreshToken", refreshToken);
+                        localStorage.setItem("email", member.email);
                         alert("회원 계정" + document.querySelector("#inputEmail").value + "로 로그인 합니다");
                         self.location = "http://localhost:8080/member/logout.html"
-                    }else{
+                    }else {
                         alert("로그인 실패");
                         self.location = "http://localhost:8080/member/login.html"
                     }

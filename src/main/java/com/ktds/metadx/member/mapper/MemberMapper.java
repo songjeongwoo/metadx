@@ -13,4 +13,5 @@ public interface MemberMapper {
 
     int deleteMember(MemberDTO memberDTO); // 회원탈퇴
 
+    MemberDTO findByEmail(String email); // 이메일로 유저 찾기
 }

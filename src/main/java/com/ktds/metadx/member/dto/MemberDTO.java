@@ -1,5 +1,6 @@
 package com.ktds.metadx.member.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class MemberDTO {
     private Long tno;
 
     // 관리자 회원 여부(관리자 일시 1)
-    private boolean isadmit;
+    private boolean isadmin;
 
     // 회원 잠금 여부
     private boolean islock;

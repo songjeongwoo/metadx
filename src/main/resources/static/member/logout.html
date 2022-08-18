@@ -31,12 +31,9 @@
                                                 <a class="btn btn-primary b3">회원탈퇴</a>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="btn btn-primary b1" href="index.html">Logout</a>
+                                                <a class="btn btn-primary logoutBtn" href="index.html">Logout</a>
                                             </div>
                                         </form>
-                                    </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -62,6 +59,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../js/scripts.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script src="../js/memberhasrole.js"></script>
         <script>
             const email = window.localStorage.getItem('email')
 
@@ -74,16 +73,17 @@
                 location.href = "http://localhost:8080/board/list.html"
             }, false)
 
-            document.querySelector(".b1").addEventListener("click", (even) => {
-                
+            document.querySelector(".logoutBtn").addEventListener("click", (even) => {
+
                 event.preventDefault();
                 event.stopPropagation();
 
-                axios.get("/member/logout").then(res => {
-                    alert(email + "을 로그아웃 합니다.");
-                    window.localStorage.removeItem(email);
-                    self.location = "http://localhost:8080/member/login.html"
-                })
+                alert(email + "을 로그아웃 합니다.");
+                window.localStorage.removeItem('email');
+                window.localStorage.removeItem('accessToken');
+                window.localStorage.removeItem('refreshToken');
+                window.localStorage.removeItem("memberType");
+                self.location = "http://localhost:8080/member/login.html"
 
             }, false)
 
@@ -94,6 +94,7 @@
                 self.location = "http://localhost:8080/member/delete.html"
 
             }, false)
+
         </script>
     </body>
 </html>

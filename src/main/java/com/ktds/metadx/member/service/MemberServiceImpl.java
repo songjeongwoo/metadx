@@ -17,8 +17,8 @@ public class MemberServiceImpl implements MemberService{
 
     // 회원가입
     @Override
-    public boolean addMember(MemberDTO memberDTO) {
-        return memberMapper.saveMember(memberDTO) > 0;
+    public int addMember(MemberDTO memberDTO) {
+        return memberMapper.saveMember(memberDTO);
     }
 
     @Override
@@ -40,6 +40,12 @@ public class MemberServiceImpl implements MemberService{
         log.info("======== 회원탈퇴 ==========");
         log.info(memberMapper.deleteMember(member));
         return memberMapper.deleteMember(member);
+    }
+
+    @Override
+    public MemberDTO findEmail(String email) {
+        log.info(memberMapper.findByEmail(email));
+        return memberMapper.findByEmail(email);
     }
 
 }

@@ -2,24 +2,23 @@ package com.ktds.metadx.member.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.metadx.member.dto.MemberDTO;
 import com.ktds.metadx.member.service.MailService;
 import com.ktds.metadx.member.service.MemberService;
+import com.ktds.metadx.member.util.JWTUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,15 +33,7 @@ public class MemberController {
 
     private final MailService mailService;
 
-    @GetMapping("/add")
-    public ModelAndView membersaveGet(){
-        log.info("====================");
-        log.info("회원가입 시작");
-        log.info("====================");
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("member/addMember.html");
-        return mav;
-    }
+    private final JWTUtil jwtUtil;
 
     @PostMapping("/add")
     public Map<String, String> membersavePost( @RequestBody MemberDTO memberDTO){
@@ -90,18 +81,8 @@ public class MemberController {
         return code;
     }
 
-    @GetMapping("/login")
-    public ModelAndView login(){
-        log.info("====================");
-        log.info("로그인 입력 페이지 GET");
-        log.info("====================");
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("member/loginForm.html");
-        return mav;
-    }
-
     @PostMapping("/login")
-    public Map<String, String> loginPOST(@RequestBody MemberDTO memberDTO, HttpServletRequest request){
+    public Map<String, String> loginPOST( @RequestBody MemberDTO memberDTO){
         log.info("====================");
         log.info("로그인 입력 페이지 POST");
         log.info("====================");
@@ -110,24 +91,34 @@ public class MemberController {
 
         if(member != null){ // 로그인 성공 시
 
-            if(member.isIsadmit() == true)
-            {
-                log.info("========== 관리자 권한 로그인 ========" + member.isIsadmit());
-                log.info("====================");
+            Map<String, Object> map = new HashMap<>();
+            map.put("mid", memberDTO.getEmail()); 
+            map.put("grade", memberDTO.isIsadmin()?"ADMIN":"USER"); 
+
+            log.info(memberDTO.getEmail());
+
+            String accessToken = jwtUtil.generateToken(map, 1);
+            String refreshToken = jwtUtil.generateToken(map, 30);
+
+            log.info( memberDTO.getEmail());
+
+            log.info("--------------------------------------------");
+            log.info("accessToken: " + accessToken);
+            log.info("refreshToken: " +refreshToken);
+
+            if(member.isIsadmin() == true)
+            {        
+                log.info("========== 관리자 권한 로그인 ========" + member.isIsadmin());
                 log.info(member.getEmail() + "님이 로그인 되었습니다");
                 log.info("====================");
                 
-                return Map.of("result", "admin");
+                return Map.of("result", "admin", "accessToken", accessToken, "refreshToken", refreshToken);
             }
             else{
-                HttpSession session = request.getSession();
-                session.setAttribute("memberinfo", member.getEmail());
-                String value = (String)session.getAttribute("memberinfo");
-                log.info("==== 세션 값 : " + value);
-                log.info("=========회원 전용 로그인 ===========" + member.isIsadmit());
+                log.info("=========회원 전용 로그인 ===========" + member.isIsadmin());
                 log.info(member.getEmail() + "님이 로그인 되었습니다");
                 log.info("====================");
-                return Map.of("result", "member");
+                return Map.of("result", "member", "accessToken", accessToken, "refreshToken", refreshToken);
             }
         } else{ // 로그인 실패 시
             log.info("====================");
@@ -135,18 +126,6 @@ public class MemberController {
             log.info("====================");
             return Map.of("result", "fail");
         }
-    }
-
-    @GetMapping("/logout")
-    public Map<String, String> logout(HttpServletRequest request){
-
-        HttpSession session = request.getSession();
-        log.info("세션 값 확인 : " + session.getAttribute("memberinfo"));
-        log.info("===========================");
-        log.info("로그아웃 되었습니다");
-        log.info("===========================");
-        session.invalidate();
-        return Map.of("result", "success");
     }
 
     @PostMapping("pwreset")
@@ -171,11 +150,14 @@ public class MemberController {
         
         log.info("====== delete Controller ==========");
         log.info(memberDTO);
-
-        memberService.deleteMember(memberDTO);
-        log.info("=======회원 탈퇴 완료======");
-
-        return Map.of("result", "success");
+        if(memberDTO.getEmail() != "" && memberDTO.getMpw() != ""){
+            memberService.deleteMember(memberDTO);
+            log.info("=======회원 탈퇴 완료======");
+            return Map.of("result", "success");
+        }else{
+            log.info("=======회원 탈퇴 실패======");
+            return Map.of("result", "fail"); 
+        }
     }
 
 }
