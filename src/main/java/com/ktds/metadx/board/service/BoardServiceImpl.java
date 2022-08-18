@@ -38,8 +38,6 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Long addPost(BoardDTO boardDTO) {
-        log.info("Service===================");
-        log.info(boardDTO.getBno());
         mapper.insertPost(boardDTO);
         return boardDTO.getBno();
     }

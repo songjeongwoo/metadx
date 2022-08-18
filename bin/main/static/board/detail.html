@@ -33,12 +33,18 @@
         <div class="row mb-3">
             <div class="col">
                 <div class="row">
-                    <div class="col d-flex justify-content-end">
+                    <div class="col">
                         <div class="row">
-                            <div class="col">
-                                <input class="form-control w-100 userKey" type="text"
-                                        name="user_key" placeholder="파일 비밀번호 입력" hidden>
-                                <button class="btn btn-secondary" id="isHuman">인간인증</button>
+                            <div class="col d-flex justify-content-end">
+                                <input class="form-control w-50 userKey" type="text"
+                                        name="userKey" placeholder="파일 비밀번호 입력" hidden>
+                                <button type="button" class="btn btn-secondary"
+                                    id="isHuman" hidden>인간인증</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <small class="form-control p-0 w-50 text-danger" style="border: 0px;" id="pwFailCntMsg" hidden></small>
                             </div>
                         </div>
                     </div>
@@ -61,8 +67,11 @@
             </div>
         </div>
         <div class="row btnDiv">
-            <div class="col d-flex justify-content-between">
-                <button class="btn btn-outline-secondary" id="postModBtn" hidden>수정</button>
+            <div class="col d-flex justify-content-start">
+                <a href="list.html" class="btn btn-outline-secondary">돌아가기</a>
+            </div>
+            <div class="col d-flex justify-content-end">
+                <button class="btn btn-outline-secondary mr-2" id="postModBtn" hidden>수정</button>
                 <button class="btn btn-secondary" id="postDelBtn" hidden>삭제</button>
             </div>
         </div>
@@ -123,7 +132,7 @@
                                     </div>
                                     <div class="col-3">
                                         <button class="btn btn-secondary w-100 downBtn" id="downBtn${idx}"
-                                            data-fname="${file.fname}" data-fuuid="${file.fuuid}"
+                                            data-fno="${file.fno}" data-fname="${file.fname}" data-fuuid="${file.fuuid}"
                                             data-fdatatype="${file.fdatatype}" hidden>다운로드</button>
                                     </div>
                                 </div>
@@ -131,16 +140,120 @@
                         </div>`)
                 })
                 document.querySelector(".download").innerHTML = fileList.join('')
+
+                //파일리스트가 있는 경우
+                if(fileList.length) {
+                    console.log(fileList)
+                    document.querySelector("#isHuman").removeAttribute("hidden")
+
+                    document.querySelector("#isHuman").addEventListener("click", (e) => {
+                        axios.get("../makeCaptcha").then(res => {
+                            document.querySelector("#makeCaptcha").innerHTML = `<img src="../makeCaptcha"/>`
+                        })
+                        
+                        document.querySelector("#captchaBtn").innerHTML =
+                            `<input type="text" id="captchaNum" placeholder="위 숫자들을 입력하세요."/>
+                            <button class="btn btn-secondary captchaBtn">제출</button>`
+                        document.querySelector("#captchaNum").value = ""
+
+                        document.querySelector(".modal-header").innerHTML =
+                            `<h6 id='modalTitle'>캡챠 인증</h6>
+                            <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                        modal.show()
+
+                        let failCnt = 0
+                        document.querySelector('.captchaBtn').addEventListener("click", (e) => {
+                            const inputCaptchaNum = document.querySelector('#captchaNum').value
+                            data = inputCaptchaNum
+                            axios.post("../captcha", data).then(res => {
+                                const isSuccess = res.data
+                                if(isSuccess) {
+                                    modal.hide()
+                                    document.querySelector("#isHuman").setAttribute("hidden", "hidden")
+                                    document.querySelector(".userKey").removeAttribute("hidden")
+                                    document.querySelector("#pwFailCntMsg").removeAttribute("hidden")
+
+                                    for(i = 0; i < document.querySelectorAll('.downBtn').length; i++) {
+                                        document.querySelector("#downBtn" + i).removeAttribute("hidden")
+                                    }
+
+                                } else {                            
+                                    failCnt += 1
+                                    document.querySelector("#failCntMsg").innerHTML = failCnt + "번 틀렸습니다(" + failCnt + "/3)."
+                                    if(failCnt == 3) {
+                                        window.localStorage.removeItem('email')
+                                        window.localStorage.removeItem('accessToken')
+                                        window.localStorage.removeItem('refreshToken')
+                                        self.location = "http://localhost:8080/member/login.html"
+                                    }
+                                }
+                            })
+                        }, false)
+                    })
+
+                    let pwFailCnt = 0
+                    document.querySelector('.download').addEventListener("click", (e) => {
+                        const target = e.target
+                        const classes = target.getAttribute("class")
+
+                        if(classes == "btn btn-secondary w-100 downBtn") {
+                            const fno = target.getAttribute("data-fno")
+                            const fname = target.getAttribute("data-fname")
+                            const fuuid = target.getAttribute("data-fuuid")
+                            const fdatatype = target.getAttribute("data-fdatatype")
+                            const userKey = document.querySelector(".userKey").value
+                            
+                            if(userKey) {
+                                data = {
+                                    fname: fname,
+                                    fuuid: fuuid,
+                                    fdatatype: fdatatype
+                                }
+
+                                axios({
+                                    url: "/file/fileDownload?bno=" + bno + "&fno=" + fno + "&userKey=" + userKey,
+                                    method: "POST",
+                                    responseType: "blob", // important
+                                    data: data
+                                }).then((response) => {
+                                    const filename = response.headers.filename
+                                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                                    const link = document.createElement("a")
+                                    link.href = url
+                                    link.setAttribute("download", filename); //or any other extension
+                                    document.body.appendChild(link)
+                                    link.click()
+
+                                    if(!filename) {
+                                        pwFailCnt += 1
+                                        document.querySelector("#pwFailCntMsg").innerHTML = pwFailCnt + "번 틀렸습니다(" + pwFailCnt + "/3)."
+                                        if(pwFailCnt == 3) {
+                                            window.localStorage.removeItem('email')
+                                            window.localStorage.removeItem('accessToken')
+                                            window.localStorage.removeItem('refreshToken')
+                                            self.location = "http://localhost:8080/member/login.html"
+                                        }
+                                    }
+                                })
+                            } else {
+                                document.querySelector(".modal-header").innerHTML =
+                                    `<b id="modalTitle">경고</b>
+                                    <h6><button type="button" class="btn btn-sm" data-dismiss="modal">X</button></h6>`
+                                document.querySelector("#modalContent").innerHTML = 
+                                    `<b class="text-danger">비밀번호를 입력하세요.</b>`
+                                modal.show()
+                            }
+                        }
+                    }, false)
+                }
             })
 
-            // const member = window.sessionStorage.getItem("member")
+            // const member = window.localStorage.getItem("member")
             // console.log(member)
             const member = "user1@kt.com"
             if(member == post.member.email) {
-
                 document.querySelector("#title").removeAttribute("disabled")
                 document.querySelector("#content").removeAttribute("disabled")
-
                 document.querySelector("#postModBtn").removeAttribute("hidden")
                 document.querySelector("#postDelBtn").removeAttribute("hidden")
             }
@@ -169,86 +282,6 @@
         }, false)
         
         const modal = new bootstrap.Modal(document.querySelector("#modal"))
-
-        document.querySelector("#isHuman").addEventListener("click", (e) => {
-            axios.get("../makeCaptcha").then(res => {
-                document.querySelector("#makeCaptcha").innerHTML = `<img src="../makeCaptcha"/>`
-            })
-            
-            document.querySelector("#captchaBtn").innerHTML =
-                `<input type="text" id="captchaNum" placeholder="위 숫자들을 입력하세요."/>
-                <button class="btn btn-secondary captchaBtn">제출</button>`
-            document.querySelector("#captchaNum").value = ""
-
-            document.querySelector(".modal-header").innerHTML =
-                `<h6 id='modalTitle'>캡챠 인증</h6>
-                <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
-            modal.show()
-
-            let failCnt = 0
-
-            document.querySelector('.captchaBtn').addEventListener("click", (e) => {
-                const inputCaptchaNum = document.querySelector('#captchaNum').value
-                data = inputCaptchaNum
-                axios.post("../captcha", data).then(res => {
-                    const isSuccess = res.data
-                    if(isSuccess) {
-                        modal.hide()
-                        document.querySelector("#isHuman").setAttribute("hidden", "hidden")
-                        document.querySelector(".userKey").removeAttribute("hidden")
-                        for(i = 0; i < document.querySelectorAll('.downBtn').length; i++) {
-                            document.querySelector("#downBtn" + i).removeAttribute("hidden")
-                        }
-
-                    } else {                            
-                        failCnt += 1
-                        document.querySelector("#failCntMsg").innerHTML = failCnt + "번 틀렸습니다(" + failCnt + "/3)."
-                        if(failCnt == 3) {
-                            window.localStorage.removeItem('email')
-                            window.localStorage.removeItem('accessToken')
-                            window.localStorage.removeItem('refreshToken')
-                            self.location = "http://localhost:8080/member/login.html"
-                        }
-                    }
-                })
-            }, false)
-        })
-
-        document.querySelector('.download').addEventListener("click", (e) => {
-            console.log("aaaaaaaaaaaa")
-            const target = e.target
-            const classes = target.getAttribute("class")
-
-            if(classes == "btn btn-secondary w-100 downBtn") {
-                const fname = target.getAttribute("data-fname")
-                const fuuid = target.getAttribute("data-fuuid")
-                const fdatatype = target.getAttribute("data-fdatatype")
-                const userKey = document.querySelector('.userKey').value
-                
-                if(userKey) {
-                    data = {
-                        fname: fname,
-                        fuuid: fuuid,
-                        fdatatype: fdatatype,
-                        userKey: userKey
-                    }
-
-                    axios.post("/file/fileDownload?userKey="+userKey, data).then(res => {
-                        console.log("download")
-                        console.log(res.data)
-                    })
-                    
-                } else {
-                    document.querySelector(".modal-header").innerHTML =
-                        `<b id='modalTitle'>경고</b>
-                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
-
-                    document.querySelector("#modalContent").innerHTML = 
-                        `<b class="text-danger">비밀번호를 입력하세요.</b>`
-                    modal.show()
-                }
-            }
-        }, false)
     </script>
 </body>
 </html>

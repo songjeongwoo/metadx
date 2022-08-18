@@ -10,8 +10,6 @@ import com.ktds.metadx.board.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-
-
 @Service
 @Log4j2
 @RequiredArgsConstructor

@@ -22,8 +22,6 @@ public class FileDTO {
     private LocalDateTime fmodDate;
     private String fdatatype;
     private String fuuid;
-
-    // private BoardDTO board;
     private Long bno;
 
     private MultipartFile[] files;

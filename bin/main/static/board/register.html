@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <div class="row mb-3">
                     <div class="col">
@@ -33,6 +33,9 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col d-flex justify-content-start">
+                        <a href="list.html" class="btn btn-outline-secondary">돌아가기</a>
+                    </div>
                     <div class="col d-flex justify-content-end">
                         <button class="btn btn-secondary" id="addPostBtn">등록</button>
                     </div>
@@ -53,7 +56,7 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        // const member = window.sessionStorage.getItem("member")
+        // const member = window.localStorage.getItem("member")
         // console.log(member)
         const member = "user1@kt.com"
         

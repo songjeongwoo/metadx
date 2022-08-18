@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,6 @@ import com.ktds.metadx.board.service.FileService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
 
 @RestController
 @Log4j2
@@ -39,10 +39,6 @@ public class FileController {
         return service.getFileList(bno);
     }
 
-    @GetMapping("/register")
-    public void getInsertDataPage(){
-    }
-
     @PostMapping("/register")
     public void insertData(FileDTO fileDTO){
         MultipartFile[] files = fileDTO.getFiles();
@@ -52,31 +48,25 @@ public class FileController {
             byte[] buffer = new byte[1024*1000];
 
             for (MultipartFile multipartFile : files) {
-                
                 String fileName = multipartFile.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
-
-                log.info(uuid+"_" + fileName);
-
                 String ext = fileName.substring(fileName.lastIndexOf(".") +1);
-
                 String savedFileName = fileName.substring(0, fileName.lastIndexOf("."));
                 String fname = savedFileName;
-
                 savedFileName = uuid+"_"+savedFileName;
 
                 String fkey = fileDTO.getFkey();
                 String fuuid = uuid;
                 String fileDataType = ext;
 
+                // *.exe, *.txt 업로드 불가
                 if(fileDataType.equals("exe") || fileDataType.equals("txt")){
-                    log.info("지원하지 않는 확장자입니다.");
                     continue;
                 }
 
                 savedFileName += ".dat";
 
-                log.info(service.insertData(fname, fkey, fuuid, fileDataType, fileDTO.getBno()));
+                service.insertData(fname, fkey, fuuid, fileDataType, fileDTO.getBno());
 
                 byte[] pwd = fileDTO.getFkey().getBytes();
                 // 패스워드를 100byte까지 입력 가능
@@ -89,51 +79,50 @@ public class FileController {
                     FileOutputStream fos = new FileOutputStream("C:\\upload\\" + savedFileName );
                     InputStream in = multipartFile.getInputStream();
                 ) {
-
                     fos.write(tempArr);
 
                     while(true){
-
                         int count = in.read(buffer);
 
-                        if(count == -1) { break;}
+                        if(count == -1) {
+                            break;
+                        }
 
                         fos.write(buffer,0, count);
-
                         fos.close();
-
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            
         }
     }
 
+    @PostMapping(value = "/fileDownload" )
+    public ResponseEntity<byte[]> fileDownload(@RequestBody FileDTO fileDTO,
+                                    @RequestParam(value = "bno",required = false) String bno,
+                                    @RequestParam(value = "fno",required = false) String fno,
+                                    @RequestParam(value = "userKey",required = false) String userKey)throws Exception{
 
-    @GetMapping("/fileDownload")
-    public void getfleDownload(){
-    }
+        // 다운로드 성공/실패 시 db에 로그 남기기
+        log.info("+++++++++++++++++++++++++++++++");
+        log.info(bno);
+        log.info(fno);
+        log.info("+++++++++++++++++++++++++++++++");
 
-    @PostMapping("/fileDownload")
-    public ResponseEntity<byte[]> fileDownload(FileDTO fileDTO, @RequestParam(value = "user_key",required = false) String userkey,
-                                            @RequestParam(value = "fuuid",required = false) String fuuid)throws Exception{
-
+        String fuuid = fileDTO.getFuuid();
         String realFkey = service.getFileFkey(fuuid);
 
-        if(!userkey.equals(realFkey)){
-            log.info("비번 불일치!!");
+        // 비번 불일치 시
+        if(!userKey.equals(realFkey)){
             return null;
         }
 
+        // 비번 일치 시
         String inputFilePath = "C:\\upload\\" + fileDTO.getFuuid() + "_" + fileDTO.getFname()+ ".dat";
         byte[] buffer = new byte[1024*1000];
 
-        log.info("비번 일치!!");
-
         InputStream fin = new FileInputStream(inputFilePath);
-
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         // 패스워드 100byte 배열 선언
@@ -143,24 +132,25 @@ public class FileController {
         fin.read(pwBuffer);
 
         while(true){
-
             int count = fin.read(buffer);
 
-            if(count == -1){break;}
+            if(count == -1){
+                break;
+            }
 
             bos.write(buffer, 0, count);
-
         }
-        bos.close();
-        byte[] data  = bos.toByteArray();
 
+        bos.close();
+
+        byte[] data  = bos.toByteArray();
         String fileName = URLEncoder.encode(fileDTO.getFname(), "UTF-8");
         
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type","application/octet-stream");
         responseHeaders.add("Content-disposition", "attachment; filename=" + fileName + "." + fileDTO.getFdatatype());
+        responseHeaders.add("fileName", fileName + "." + fileDTO.getFdatatype());
 
-        
         return ResponseEntity.ok().headers(responseHeaders).body(data);
     }
 }

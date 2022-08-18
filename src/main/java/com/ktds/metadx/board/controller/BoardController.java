@@ -20,7 +20,6 @@ import com.ktds.metadx.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-// @Controller
 @RestController
 @Log4j2
 @RequestMapping("/board")
