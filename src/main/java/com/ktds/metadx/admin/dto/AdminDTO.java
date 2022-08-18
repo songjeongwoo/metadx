@@ -3,10 +3,8 @@ package com.ktds.metadx.admin.dto;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ktds.metadx.member.dto.MemberDTO;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,8 +20,7 @@ public class AdminDTO {
     
     private Long bno;
     private String email;
-    
-    MemberDTO memberDTO = new MemberDTO();
-    private Long dno = memberDTO.getDno();
-    private Long tno = memberDTO.getTno();
+
+    private String team;
+    private String department;
 }
