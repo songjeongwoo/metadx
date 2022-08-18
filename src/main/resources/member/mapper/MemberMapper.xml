@@ -7,8 +7,8 @@
     <!-- 회원가입 -->
     <insert id="saveMember">
         INSERT INTO member
-        (email, mpw, mname, dno, jno, tno)
-        VALUES (#{email}, #{mpw}, #{mname}, #{dno}, #{jno}, #{tno})
+        (email, mpw, mname, dno, jno, tno, isadmin, islock)
+        VALUES (#{email}, #{mpw}, #{mname}, #{dno}, #{jno}, #{tno}, "0", "0")
     </insert>
 
     <!-- 로그인 -->
@@ -17,5 +17,26 @@
         FROM member
         WHERE email = #{email}
         AND mpw = #{mpw}
+    </select>
+
+    <!-- 패스워드 초기화 -->
+    <update id="pwReset">
+        UPDATE member
+        set mpw = "0000"
+        where email = #{email}
+    </update>
+
+    <!-- 회원 탈퇴 -->
+    <delete id="deleteMember">
+        DELETE FROM member
+        where email = #{email}
+        AND mpw = #{mpw}
+    </delete>
+    
+    <!-- 이메일로 유저 찾기 -->
+    <select id = "findByEmail" resultType="com.ktds.metadx.member.dto.MemberDTO">
+        SELECT *
+        FROM member
+        where member.email = #{email}
     </select>
   </mapper>

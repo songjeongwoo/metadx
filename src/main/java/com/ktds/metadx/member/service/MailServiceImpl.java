@@ -1,15 +1,9 @@
 package com.ktds.metadx.member.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import com.ktds.metadx.member.dto.MemberDTO;
 
 import lombok.extern.log4j.Log4j2;
 

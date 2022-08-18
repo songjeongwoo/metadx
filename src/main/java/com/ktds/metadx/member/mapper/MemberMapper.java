@@ -9,14 +9,9 @@ public interface MemberMapper {
 
     MemberDTO loginMember(MemberDTO memberDTO); // 로그인
 
-    // public Optional<MemberDTO> findByEmail(String uname); // 이름으로 비밀번호 찾기
+    int pwReset(MemberDTO memberDTO); // 패스워드 초기화
 
-    // public Optional<MemberDTO> findByPw(String pw); // 패스워드 찾기
+    int deleteMember(MemberDTO memberDTO); // 회원탈퇴
 
-    // public void updateMember(MemberDTO member); // 회원 정보 수정
-
-    // public void deleteMember(String email); // 회원 탈퇴
-
-    // public Boolean existsByEmail(String email); // 이메일 중복 확인
-
+    MemberDTO findByEmail(String email); // 이메일로 유저 찾기
 }

@@ -33,6 +33,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
 	implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.15'
 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'com.google.code.gson:gson:2.8.9'
+
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
 }
 
 tasks.named('test') {
