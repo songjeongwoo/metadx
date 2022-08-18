@@ -1,6 +1,8 @@
 package com.ktds.metadx.board.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import com.ktds.metadx.member.dto.MemberDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +17,8 @@ public class BoardDTO {
     private Long bno;
     private String title;
     private String content;
-    private LocalDateTime regDate;
-    private LocalDateTime modDate;
+    private LocalDate regDate;
+    private LocalDate modDate;
     private boolean isFiles;
-    // private Member member;
+    private MemberDTO member;
 }

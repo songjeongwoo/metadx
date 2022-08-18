@@ -18,13 +18,23 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">회원가입</h3></div>
                                     <div class="card-body">
                                         <form>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" id="inputEmail" type="email" placeholder="name@kt.com" />
                                                 <label for="inputEmail">Email address</label>
                                             </div>
+                                            <div>
+                                                <button class="confirmbtn">인증번호 보내기</button>
+                                            </div><br>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="epw" type="password"/>
+                                                <label for="epw" id = emconfirmchk>인증번호</label>
+                                            </div>
+                                            <div>
+                                                <button class="confirmbtn2">인증번호 확인</button>
+                                            </div><br>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
@@ -43,8 +53,8 @@
                                                 <input class="form-control" id="inputname" type="name" placeholder="name" />
                                                 <label for="inputname">name</label>
                                             </div>
-                                            <div>
-                                                <td>본부명</td>
+                                            <div class="form-floating mb-3">
+                                                <h4>본부명
                                                 <select id = "dno" name = "dno" style = "width:100">
                                                     <option value = "1">경영서비스본부</option>
                                                     <option value = "2">고객서비스본부</option>
@@ -52,30 +62,29 @@
                                                     <option value = "4">인프라서비스본부</option>
                                                     <option value = "5">Enterprise사업본부</option>
                                                     <option value = "6">DX사업본부</option>
-                                                </select>
-                                            </div><br>
-                                            <div>
-                                                <td>직급명</td>
+                                                </select></h4>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <h4>직급명
                                                 <select id = "jno" name = "jno" style = "width:100">
                                                     <option value = "1">M1</option>
                                                     <option value = "2">M2</option>
                                                     <option value = "3">M3</option>
                                                     <option value = "4">M4</option>
                                                     <option value = "5">M5</option>
-                                                </select>
-                                            </div><br>
-                                            <div>
-                                                <td>팀명</td>
+                                                </select></h4>
+                                            <div class="form-floating mb-3">
+                                                <h4>팀명
                                                 <select id = "tno" name = "tno" style = "width:100">
                                                     <option value = "1">team1</option>
                                                     <option value = "2">team2</option>
                                                     <option value = "3">team3</option>
                                                     <option value = "4">team4</option>
                                                     <option value = "5">team5</option>
-                                                </select>
+                                                </select></h4>
                                             </div>
                                             <div class="mt-4 mb-0">
-                                                <div class="d-grid"><a class="btn btn-primary btn-block createBtn" href="login.html">Create Account</a></div>
+                                                <div class="d-grid"><a class="btn btn-primary btn-block createBtn" href="login.html">회원가입 완료</a></div>
                                             </div>
                                         </form>
                                     </div>
@@ -136,8 +145,43 @@
                     location.href="login.html"
                  })
 
-
             }, false)
         </script>
+        <script>
+            document.querySelector(".confirmbtn").addEventListener("click", (event) => {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                email = document.querySelector("#inputEmail").value;
+            
+                axios.post("/member/mail", email).then(res => {
+                    alert(email + "로 메일을 보냅니다");
+                    console.log(res.data)
+                    
+                })
+            }, false)
+        </script>
+
+        <script>
+            document.querySelector(".confirmbtn2").addEventListener("click", (event) => {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                code = document.querySelector('#epw').value;
+
+                axios.post("/member/mail_chk", code).then(res =>{
+                    if(res.data == code){
+                        alert("인증이 완료되었습니다.")
+                        console.log("인증완료")
+                    }else{
+                        alert("인증이 실패하였습니다.")
+                        console.log("인증실패")
+                    }
+                })
+            }, false)
+        </script>
+
     </body>
 </html>

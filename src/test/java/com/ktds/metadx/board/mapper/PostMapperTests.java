@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class PostMapperTests {
     @Autowired
-    PostMapper postMapper;
+    FileMapper postMapper;
 
     // @Test
     // public void testList() {
