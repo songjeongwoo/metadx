@@ -90,13 +90,13 @@
                 window.localStorage.removeItem('email');
                 window.localStorage.removeItem('accessToken');
                 window.localStorage.removeItem('refreshToken');
-                location.href = "login.html"
+                self.location = "http://localhost:8080/login.html"
             }else{
                 alert(email + "계정삭제를 실패하였습니다.");
                 window.localStorage.removeItem('email');
                 window.localStorage.removeItem('accessToken');
                 window.localStorage.removeItem('refreshToken');
-                location.href = "login.html"
+                self.location = "http://localhost:8080/login.html"
             }
         })
 

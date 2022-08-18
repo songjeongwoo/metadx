@@ -1,4 +1,4 @@
-package com.ktds.metadx.member.service;
+package com.ktds.metadx.member.security;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ktds.metadx.member.dto.MemberDTO;
+import com.ktds.metadx.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

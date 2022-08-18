@@ -1,4 +1,4 @@
-package com.ktds.metadx.member.filter;
+package com.ktds.metadx.member.security.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -11,8 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.ktds.metadx.member.filter.exception.AccessTokenException;
-import com.ktds.metadx.member.service.APIUserDetailsService;
+
+import com.ktds.metadx.member.security.APIUserDetailsService;
+import com.ktds.metadx.member.security.filter.exception.AccessTokenException;
 import com.ktds.metadx.member.util.JWTUtil;
 
 
@@ -44,9 +45,14 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         log.info(path);
         log.info(path.startsWith("/admin/") == false  );
 
+        if(path.startsWith("/member/login")){
+            
+            filterChain.doFilter(request, response);
+            return;
+        }
 
 
-        if (path.startsWith("/api/") == false  ) {
+        if (path.startsWith("/member/") == false  ) {
 
             log.info("Don't check JWT");
 
@@ -75,8 +81,9 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request,response);
-        }catch(AccessTokenException accessTokenException){
-            accessTokenException.sendResponseError(response);
+        }catch(Exception accessTokenException){
+            accessTokenException.printStackTrace();
+            ((AccessTokenException)accessTokenException).sendResponseError(response);
         }
     }
 

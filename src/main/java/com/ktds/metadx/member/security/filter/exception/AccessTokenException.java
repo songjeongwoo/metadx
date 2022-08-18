@@ -1,4 +1,4 @@
-package com.ktds.metadx.member.filter.exception;
+package com.ktds.metadx.member.security.filter.exception;
 
 import com.google.gson.Gson;
 import org.springframework.http.MediaType;
