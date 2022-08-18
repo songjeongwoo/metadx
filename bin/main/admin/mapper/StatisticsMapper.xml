@@ -6,7 +6,7 @@
 
   <mapper namespace="com.ktds.metadx.admin.mapper.StatisticsMapper">
     <select id="getList" resultType="com.ktds.metadx.admin.dto.AdminDTO">
-        SELECT h.hno, h.bno, h.email, h.hbool, h.hreg_date, 
+        SELECT h.pfdno, h.bno, h.email, h.pfdresult, h.pfdreg_date, 
         CASE 
           when d.dno then d.dname
           ELSE '부서 미지정'
@@ -15,37 +15,37 @@
           when t.tno then t.tname
           ELSE '팀 미지정'
           END AS 'team'
-        FROM history h
+        FROM pfd h
         LEFT OUTER JOIN board b 
         ON h.bno = b.bno
         LEFT OUTER JOIN department d
         ON b.dno = d.dno
         LEFT OUTER JOIN team t
         ON b.tno = t.tno
-        ORDER BY h.hno DESC;
+        ORDER BY h.pfdno DESC;
     </select>
 
     <select id="getCountDownloads" resultType="com.ktds.metadx.admin.dto.AdminCountDTO">
-        SELECT MONTH(hreg_date) no, count(hbool) count
-        FROM history
-        WHERE hbool > 0
-          AND YEAR(hreg_date) = YEAR(NOW())
-        GROUP BY MONTH(hreg_date);
+        SELECT MONTH(pfdreg_date) no, count(pfdresult) count
+        FROM pfd
+        WHERE pfdresult > 0
+          AND YEAR(pfdreg_date) = YEAR(NOW())
+        GROUP BY MONTH(pfdreg_date);
     </select>
 
     <select id="getLockList" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
-        select * from memberlock
-        order by lockdate desc
+        select * from block
+        order by blockdate desc
     </select>
 
     <select id="getLockAccount" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
-        SELECT l.lno lno, m.email email, m.islock islock, MAX(l.lockdate) lockdate
+        SELECT MAX(l.blno) blno, m.email email, m.islock islock, MAX(l.blockdate) blockdate
         FROM member m
-        LEFT OUTER JOIN memberlock l
+        LEFT OUTER JOIN block l
           ON m.email = l.email
         WHERE m.islock = 1
         GROUP BY m.email
-        ORDER BY l.lno DESC;
+        ORDER BY l.blno DESC;
     </select>
     
     <update id="changeLockAccount">
@@ -53,10 +53,10 @@
     </update>
 
     <select id="getCountLocks" resultType="com.ktds.metadx.admin.dto.AdminCountDTO">
-        SELECT MONTH(lockdate) no, COUNT(lockdate) count 
-        FROM memberlock
-        WHERE YEAR(lockdate) = YEAR(NOW())
-        ORDER BY MONTH(lockdate) DESC;
+        SELECT MONTH(blockdate) no, COUNT(blockdate) count 
+        FROM block
+        WHERE YEAR(blockdate) = YEAR(NOW())
+        ORDER BY MONTH(blockdate) DESC;
     </select>
 
   </mapper>

@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminDTO {
-    private Long hno;
-    private Long hbool;
+    private Long pfdno;
+    private Long pfdresult;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    private LocalDateTime hreg_date;
+    private LocalDateTime pfdreg_date;
     
     private Long bno;
     private String email;
