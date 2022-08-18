@@ -273,7 +273,7 @@
 
                 const obj = {
                 // Quickly get the headings
-                headings: ["lno", "email", "lockdate"],
+                headings: ["blno", "email", "blockdate"],
 
                     // data array
                     data: []
@@ -330,7 +330,7 @@
 
                 const obj = {
                 // Quickly get the headings
-                headings: ["lno", "email", "islock", "lockdate"],
+                headings: ["blno", "email", "islock", "blockdate"],
 
                     // data array
                     data: []
@@ -338,14 +338,25 @@
 
                 // Loop over the objects to get the values
                 for ( let i = 0; i < res.data.length; i++ ) {
+                    let cnt = 0
                     obj.data[i] = [];
 
                     for (let j = 0; j < obj.headings.length; j++) {
                         lockaccount.push(res.data[i]["email"].toString())
                         const p = obj.headings[j]
+
                         if( res.data[i].hasOwnProperty(p) ) {
-                            obj.data[i].push(res.data[i][p].toString());
-                        }
+                                if (cnt == 2 && res.data[i][p] == 1) {
+                                    obj.data[i].push("차단")
+                                }
+                                else if (cnt == 2 && res.data[i][p] == 0) {
+                                    obj.data[i].push("알 수 없음")
+                                }
+                                else {
+                                    obj.data[i].push(res.data[i][p].toString())
+                                    cnt += 1
+                                }
+                            }
                     }
                 }
                 blockAccountManagetable.insert(obj)
@@ -367,6 +378,7 @@
             axios.post("/admin/changeLockAccount?email=" + lockaccount[elem.dataset.row]).then(req => {
                 // modal
                 alert(lockaccount[elem.dataset.row] + " 계정이 잠금 해제되었습니다.")
+                location.reload();
             })
         }
   

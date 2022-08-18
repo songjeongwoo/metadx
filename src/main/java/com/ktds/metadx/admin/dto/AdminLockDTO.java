@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminLockDTO {
-    private Long lno;
+    private Long blno;
     private String email;
 
     @JsonFormat(pattern="yyyy-MM-dd, hh:mm:ss")
-    private LocalDateTime lockdate;
+    private LocalDateTime blockdate;
 
     // getLockAccout용
     private Long islock;
