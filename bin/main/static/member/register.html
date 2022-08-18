@@ -1,190 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Register - SB Admin</title>
-        <link href="../css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="bg-primary">
-        <div id="layoutAuthentication">
-            <div id="layoutAuthentication_content">
-                <main>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-7">
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">회원가입</h3></div>
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@kt.com" />
-                                                <label for="inputEmail">Email address</label>
-                                            </div>
-                                            <div>
-                                                <button class="confirmbtn">인증번호 보내기</button>
-                                            </div><br>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="epw" type="password"/>
-                                                <label for="epw" id = emconfirmchk>인증번호</label>
-                                            </div>
-                                            <div>
-                                                <button class="confirmbtn2">인증번호 확인</button>
-                                            </div><br>
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" />
-                                                        <label for="inputPassword">Password</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0">
-                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
-                                                        <label for="inputPasswordConfirm">Confirm Password</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputname" type="name" placeholder="name" />
-                                                <label for="inputname">name</label>
-                                                <div id="nameError" class="error"></div>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <h4>본부명
-                                                <select id = "dno" name = "dno" style = "width:100">
-                                                    <option selected disabled>본부를 선택하세요.</option>
-                                                    <option value = "1">경영서비스본부</option>
-                                                    <option value = "2">고객서비스본부</option>
-                                                    <option value = "3">플랫폼서비스본부</option>
-                                                    <option value = "4">인프라서비스본부</option>
-                                                    <option value = "5">Enterprise사업본부</option>
-                                                    <option value = "6">DX사업본부</option>
-                                                </select></h4>
-                                            </div>
-                                            <div class="form-floating mb-3">
-                                                <h4>직급명
-                                                <select id = "jno" name = "jno" style = "width:100">
-                                                    <option selected disabled>직급을 선택하세요.</option>
-                                                    <option value = "1">M1</option>
-                                                    <option value = "2">M2</option>
-                                                    <option value = "3">M3</option>
-                                                    <option value = "4">M4</option>
-                                                    <option value = "5">M5</option>
-                                                </select></h4>
-                                            <div class="form-floating mb-3">
-                                                <h4>팀명
-                                                <select id = "tno" name = "tno" style = "width:100">
-                                                    <option selected disabled>팀을 선택하세요.</option>
-                                                    <option value = "1">team1</option>
-                                                    <option value = "2">team2</option>
-                                                    <option value = "3">team3</option>
-                                                    <option value = "4">team4</option>
-                                                    <option value = "5">team5</option>
-                                                </select></h4>
-                                            </div>
-                                            <div class="mt-4 mb-0">
-                                                <div class="d-grid"><a class="btn btn-primary btn-block createBtn" href="login.html">회원가입 완료</a></div>
-                                            </div>
-                                        </form>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+</head>
+<style>
+    #loginBtn {
+        color: #22518F;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mb-5">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h4 class="text-center font-weight-light my-4">회원가입</h4></div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-floating mb-3">
+                                <label for="inputEmail">이메일 주소</label>
+                                <input class="form-control" id="inputEmail" type="email" placeholder="name@kt.com" />
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary confirmbtn mainColorBtn">인증번호 보내기</button>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <label for="epw" id = emconfirmchk>인증번호</label>
+                                <input class="form-control" id="epw"
+                                    type="password" placeholder="인증번호를 입력하세요."/>
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary confirmbtn2 mainColorBtn">인증번호 확인</button>
+                            </div><br>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <label for="inputPassword">비밀번호</label>
+                                        <input class="form-control" id="inputPassword"
+                                            type="password" placeholder="비밀번호를 입력하세요."/>
                                     </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="login.html" onclick="">Have an account? Go to login</a></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3 mb-md-0">
+                                        <label for="inputPasswordConfirm">비밀번호 확인</label>
+                                        <input class="form-control" id="inputPasswordConfirm"
+                                            type="password" placeholder="비밀번호를 다시 입력하세요."/>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-            <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                            <div class="row form-floating mb-3">
+                                <div class="col">
+                                    <label for="inputname">이름</label>
+                                    <input class="form-control" id="inputname"
+                                        type="name" placeholder="이름을 입력하세요."/>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <label for="jno">직&nbsp;&nbsp;&nbsp;&nbsp;급</label>
+                                        <select class="form-control" id="jno" name="jno" style = "width:100">
+                                            <option selected disabled>직급을 선택하세요.</option>
+                                            <option value = "1">M1</option>
+                                            <option value = "2">M2</option>
+                                            <option value = "3">M3</option>
+                                            <option value = "4">M4</option>
+                                            <option value = "5">M5</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row form-floating mb-3">
+                                <div class="col">
+                                    <label for="dno">본부명</label>
+                                    <select class="form-control" id="dno" name="dno" style="width:100">
+                                        <option selected disabled>본부를 선택하세요.</option>
+                                        <option value = "1">경영서비스본부</option>
+                                        <option value = "2">고객서비스본부</option>
+                                        <option value = "3">플랫폼서비스본부</option>
+                                        <option value = "4">인프라서비스본부</option>
+                                        <option value = "5">Enterprise사업본부</option>
+                                        <option value = "6">DX사업본부</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-3">
+                                        <label for="tno">팀&nbsp;&nbsp;&nbsp;&nbsp;명</label>
+                                        <select class="form-control" id="tno" name="tno" style="width:100">
+                                            <option selected disabled>팀을 선택하세요.</option>
+                                            <option value = "1">team1</option>
+                                            <option value = "2">team2</option>
+                                            <option value = "3">team3</option>
+                                            <option value = "4">team4</option>
+                                            <option value = "5">team5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-0">
+                                <div class="d-grid"><a class="btn btn-secondary mainColorBtn btn-block createBtn" href="login.html">회원가입 완료</a></div>
+                            </div>
+                        </form>
                     </div>
-                </footer>
+                    <div class="card-footer text-center py-3">
+                        <div class="small"><a href="login.html" id="loginBtn">로그인으로 돌아가기</a></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="../js/scripts.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script>
-            document.querySelector(".createBtn").addEventListener("click", (event) => {
+    </div>
+    <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
+    <link rel='stylesheet' href='http://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>
 
-                event.preventDefault();
-                event.stopPropagation();
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <script>
+        document.querySelector(".createBtn").addEventListener("click", (event) => {
 
-                alert(document.querySelector("#inputEmail").value + "로 가입");
+            event.preventDefault();
+            event.stopPropagation();
 
-                email = document.querySelector("#inputEmail").value;
-                mpw = document.querySelector("#inputPassword").value;
-                mname = document.querySelector("#inputname").value;
-                dno = document.querySelector("#dno").value;
-                jno = document.querySelector("#jno").value;
-                tno = document.querySelector("#tno").value;
+            alert(document.querySelector("#inputEmail").value + "로 가입");
 
-                const member = {
-                                "email":email,
-                                "mpw":mpw,
-                                "mname":mname,
-                                "dno":dno,
-                                "jno":jno,
-                                "tno":tno
-                            }
+            email = document.querySelector("#inputEmail").value;
+            mpw = document.querySelector("#inputPassword").value;
+            mname = document.querySelector("#inputname").value;
+            dno = document.querySelector("#dno").value;
+            jno = document.querySelector("#jno").value;
+            tno = document.querySelector("#tno").value;
 
-                console.log(member)
-                
-                axios.post("/member/add", member).then(res => {
-                    location.href="login.html"
-                 })
+            const member = {
+                            "email":email,
+                            "mpw":mpw,
+                            "mname":mname,
+                            "dno":dno,
+                            "jno":jno,
+                            "tno":tno
+                        }
 
-            }, false)
-        </script>
-        <script>
-            document.querySelector(".confirmbtn").addEventListener("click", (event) => {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-                email = document.querySelector("#inputEmail").value;
+            console.log(member)
             
-                axios.post("/member/mail", email).then(res => {
-                    alert(email + "로 메일을 보냅니다");
-                    console.log(res.data)
-                    
+            axios.post("/member/add", member).then(res => {
+                location.href="login.html"
                 })
-            }, false)
-        </script>
 
-        <script>
-            document.querySelector(".confirmbtn2").addEventListener("click", (event) => {
+        }, false)
+    </script>
+    <script>
+        document.querySelector(".confirmbtn").addEventListener("click", (event) => {
 
-                event.preventDefault();
-                event.stopPropagation();
+            event.preventDefault();
+            event.stopPropagation();
 
-                code = document.querySelector('#epw').value;
+            email = document.querySelector("#inputEmail").value;
+        
+            axios.post("/member/mail", email).then(res => {
+                alert(email + "로 메일을 보냅니다");
+                console.log(res.data)
+                
+            })
+        }, false)
+    </script>
 
-                axios.post("/member/mail_chk", code).then(res =>{
-                    if(res.data == code){
-                        alert("인증이 완료되었습니다.")
-                        console.log("인증완료")
-                    }else{
-                        alert("인증이 실패하였습니다.")
-                        console.log("인증실패")
-                    }
-                })
-            }, false)
-        </script>
-    </body>
+    <script>
+        document.querySelector(".confirmbtn2").addEventListener("click", (event) => {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            code = document.querySelector('#epw').value;
+
+            axios.post("/member/mail_chk", code).then(res =>{
+                if(res.data == code){
+                    alert("인증이 완료되었습니다.")
+                    console.log("인증완료")
+                }else{
+                    alert("인증이 실패하였습니다.")
+                    console.log("인증실패")
+                }
+            })
+        }, false)
+    </script>
+</body>
 </html>

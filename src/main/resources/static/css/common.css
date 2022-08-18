@@ -1,0 +1,65 @@
+.header {
+    background-color: #16355D !important;
+    height: 5rem;
+}
+
+.logoBtn, #logoImg {
+    margin-left: 1.5rem;
+    height: 5rem;
+}
+
+.adminBtn, #menuBtn > a{
+    color: #fff !important;
+}
+
+body {
+    color: #22518F !important;
+}
+
+.card {
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+table {
+    width: 100%;
+}
+
+.thead {
+    border-bottom: 2px solid #22518F;
+}
+
+thead, tbody, tfoot, tr, td, th {
+    text-align: left;
+    padding-left: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    height: 3rem;             
+}
+
+a {
+    text-decoration: none;
+}
+
+.mainColorBtn {
+    background-color: #22518F !important;
+    border-color: #22518F !important;
+    color: #fff;
+}
+
+.mainColorBtn:hover {
+    background-color: #fff !important;
+    border-color: #22518F !important;
+    color: #22518F;
+}
+
+.subColorBtn {
+    border-color: #22518F !important;
+    color: #22518F;
+}
+
+.subColorBtn:hover {
+    background-color: #22518F !important;
+    color: #fff;
+}

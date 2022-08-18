@@ -9,15 +9,7 @@
         <title>Tables - SB Admin</title>
     </head>
     <body>
-        <header class="header text-light">
-            <div class='row justify-content-between'>
-                <div class='col-15'>
-                    <a class='logoBtn' href='/board/list.html'>
-                        <img src='../res/logo.png' id='logoImg' alt='로고이미지'>
-                    </a>
-                </div>
-            </div>
-        </header>
+        <header class="header text-light"></header>
         <div class="container px-4">
             <h1 class="mt-4">MetaDx</h1>
             <div class="card mb-4">
@@ -25,17 +17,17 @@
                     <table>
                         <thead>
                             <tr class="thead">
-                                <th>번호</th>
-                                <th>제목</th>
-                                <th>작성자</th>
-                                <th>작성일자</th>
+                                <th class="col-1">번호</th>
+                                <th class="col-7">제목</th>
+                                <th class="col-2">작성자</th>
+                                <th class="col-2">작성일자</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
                     </table>
                     <div class="mt-3 mb-3 d-flex justify-content-end">
-                        <a href="register.html" class="btn btn-secondary">자료등록</a>
+                        <a href="register.html" class="btn btn-secondary mainColorBtn">자료등록</a>
                     </div>
                     <div class="d-flex justify-content-center">
                         <nav class="dataTable-pagination">
@@ -58,54 +50,6 @@
             </div>
         </footer>
         <style>
-            .header {
-                background-color: #16355D !important;
-                height: 5rem;
-            }
-
-            .logoBtn, #logoImg {
-                margin-left: 1.5rem;
-                height: 5rem;
-                /* height: 3rem; */
-                /* margin-top: 1.5rem; */
-            }
-
-            body {
-                /* color: #484848; */
-                color: #22518F !important;
-            }
-
-            .card {
-                background-color: #fff;
-                background-clip: border-box;
-                border: 1px solid rgba(0, 0, 0, 0.125);
-                border-radius: 0.25rem;
-            }
-            
-            table {
-                width: 100%;
-            }
-
-            .thead {
-                /* border-bottom: 2px solid black; */
-                border-bottom: 2px solid #22518F;
-            }
-            
-            thead, tbody, tfoot, tr, td, th {
-                text-align: left;
-                padding-left: 0.75rem;
-                border: 1px solid rgba(0, 0, 0, 0.125);
-                height: 3rem;             
-            }
-
-            a {
-                text-decoration: none;
-            }
-
-            .btn {
-                background-color: #22518F !important;
-            }
-
             .pageDiv {
                 display: flex;
                 margin-right: 1rem;
@@ -113,14 +57,15 @@
                 color: #484848;
             }
 
-            .pageDiv:hover {
+            .pageDiv div:hover {
                 cursor: pointer;
+                background-color: #22518F;
+                color: #fff;
             }
     
             .pageDiv div {
                 margin-bottom: 2rem;
                 padding: 0.5rem;
-                /* border: 1px solid rgba(0, 0, 0, 0.125); */
                 border: 1px solid #22518F;
             }
         </style>
@@ -130,6 +75,9 @@
         <link rel='stylesheet' href='http://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>
         
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script src="../js/header.js"></script>
+        <link href="../css/common.css" rel="stylesheet"/>
         <script>
             const getList = async (pageNum) => {
                 const res = await axios.get("/board/list", {params:{page:pageNum}})

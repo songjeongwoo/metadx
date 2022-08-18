@@ -51,6 +51,13 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             return;
         }
 
+        if(path.endsWith(".html") || path.endsWith("member/mail") || path.endsWith("member/mail_chk") 
+            || path.endsWith("member/add") || path.endsWith("member/pwreset") || path.endsWith("member/login")
+            || path.endsWith("member/delete") || path.endsWith("/board/post/add"))
+        {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (path.startsWith("/member/") == false  ) {
 

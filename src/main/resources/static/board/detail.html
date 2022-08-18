@@ -6,7 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    #content {
+        height: 15rem;
+        resize: none;
+    }
+</style>
 <body>
+    <header class="header text-light"></header>
     <div class="container">
         <div class="row mt-3 mb-3">
             <div class="col">
@@ -38,7 +45,7 @@
                             <div class="col d-flex justify-content-end">
                                 <input class="form-control w-50 userKey" type="text"
                                         name="userKey" placeholder="파일 비밀번호 입력" hidden>
-                                <button type="button" class="btn btn-secondary"
+                                <button type="button" class="btn btn-secondary mainColorBtn"
                                     id="isHuman" hidden>인간인증</button>
                             </div>
                         </div>
@@ -68,11 +75,11 @@
         </div>
         <div class="row btnDiv">
             <div class="col d-flex justify-content-start">
-                <a href="list.html" class="btn btn-outline-secondary">돌아가기</a>
+                <a href="list.html" class="btn btn-outline-secondary subColorBtn">돌아가기</a>
             </div>
             <div class="col d-flex justify-content-end">
-                <button class="btn btn-outline-secondary mr-2" id="postModBtn" hidden>수정</button>
-                <button class="btn btn-secondary" id="postDelBtn" hidden>삭제</button>
+                <button class="btn btn-outline-secondary subColorBtn mr-2" id="postModBtn" hidden>수정</button>
+                <button class="btn btn-secondary mainColorBtn" id="postDelBtn" hidden>삭제</button>
             </div>
         </div>
     </div>
@@ -105,6 +112,9 @@
     <link rel='stylesheet' href='http://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'/>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="../js/header.js"></script>
+    <link href="../css/common.css" rel="stylesheet"/>
     <script>
         const bno = window.sessionStorage.getItem("bno")
         
@@ -143,7 +153,6 @@
 
                 //파일리스트가 있는 경우
                 if(fileList.length) {
-                    console.log(fileList)
                     document.querySelector("#isHuman").removeAttribute("hidden")
 
                     document.querySelector("#isHuman").addEventListener("click", (e) => {
@@ -153,7 +162,7 @@
                         
                         document.querySelector("#captchaBtn").innerHTML =
                             `<input type="text" id="captchaNum" placeholder="위 숫자들을 입력하세요."/>
-                            <button class="btn btn-secondary captchaBtn">제출</button>`
+                            <button class="btn btn-secondary captchaBtn mainColorBtn">제출</button>`
                         document.querySelector("#captchaNum").value = ""
 
                         document.querySelector(".modal-header").innerHTML =
@@ -181,6 +190,7 @@
                                     failCnt += 1
                                     document.querySelector("#failCntMsg").innerHTML = failCnt + "번 틀렸습니다(" + failCnt + "/3)."
                                     if(failCnt == 3) {
+                                        // lock
                                         window.localStorage.removeItem('email')
                                         window.localStorage.removeItem('accessToken')
                                         window.localStorage.removeItem('refreshToken')
@@ -228,6 +238,7 @@
                                         pwFailCnt += 1
                                         document.querySelector("#pwFailCntMsg").innerHTML = pwFailCnt + "번 틀렸습니다(" + pwFailCnt + "/3)."
                                         if(pwFailCnt == 3) {
+                                            // lock
                                             window.localStorage.removeItem('email')
                                             window.localStorage.removeItem('accessToken')
                                             window.localStorage.removeItem('refreshToken')
@@ -248,9 +259,8 @@
                 }
             })
 
-            // const member = window.localStorage.getItem("member")
-            // console.log(member)
-            const member = "user1@kt.com"
+            const member = localStorage.getItem("email")
+            
             if(member == post.member.email) {
                 document.querySelector("#title").removeAttribute("disabled")
                 document.querySelector("#content").removeAttribute("disabled")
