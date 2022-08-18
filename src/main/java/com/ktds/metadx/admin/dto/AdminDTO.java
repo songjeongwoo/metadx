@@ -15,7 +15,7 @@ public class AdminDTO {
     private Long pfdno;
     private Long pfdresult;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd, hh:mm:ss")
     private LocalDateTime pfdreg_date;
     
     private Long bno;
