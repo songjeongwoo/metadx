@@ -39,4 +39,11 @@
         FROM member
         where member.email = #{email}
     </select>
+
+    <!-- 계정 차단 -->
+    <update id="updateIslock">
+        UPDATE member
+        set islock = 1
+        where email = #{email}
+    </update>
   </mapper>

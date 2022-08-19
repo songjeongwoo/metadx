@@ -17,4 +17,6 @@ public interface MemberService {
 
     public MemberDTO findEmail(String email);
 
+    public boolean userLock(String email);
+
 }

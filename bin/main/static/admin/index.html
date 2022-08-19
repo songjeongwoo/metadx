@@ -251,23 +251,13 @@
 
         <!-- Table -->
         <script>
-            
-            const accessToken = localStorage.getItem("accessToken")
-
-            if(!accessToken){
-                throw 'Cannot Find Access Token'
-            }
-
-            const authHeader = {"Authorization": `Bearer ${accessToken}`}
-            console.log(authHeader)
 
             // bootstrap function
             const datatablesSimple = document.getElementById('datatablesSimple');
             const tabletest = new simpleDatatables.DataTable(datatablesSimple);
 
             tabletest.on('datatable.init', function(args) {
-                axios.get("/admin/statisticsList", {headers: authHeader}).then(res => {
-                    
+                axios.get("/admin/statisticsList").then(res => {
 
                     const obj = {
                     // Quickly get the headings
@@ -335,7 +325,7 @@
 
             const chartdata = new Array();
 
-            axios.get("/admin/getCountDownloads",{headers: authHeader}).then(res => {
+            axios.get("/admin/getCountDownloads").then(res => {
  
                 for ( let i = 0; i < 12; i++ ) {
                     chartdata.push(0)
@@ -403,7 +393,7 @@
 
             const lockchartdata = new Array();
 
-            axios.get("/admin/getCountLocks", {headers: authHeader}).then(res => {
+            axios.get("/admin/getCountLocks").then(res => {
  
                 for ( let i = 0; i < 31; i++ ) {
                     lockchartdata.push(0)

@@ -1,3 +1,6 @@
+
+console.log(localStorage.getItem("memberType"))
+
 if(localStorage.getItem("memberType") != "admin"){
     alert("접근 권한이 없습니다.");
     self.location = "http://localhost:8080/login.html"

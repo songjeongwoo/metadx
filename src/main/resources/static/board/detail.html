@@ -117,6 +117,7 @@
     <link href="../css/common.css" rel="stylesheet"/>
     <script>
         const bno = window.sessionStorage.getItem("bno")
+        const modal = new bootstrap.Modal(document.querySelector("#modal"))
         
         axios.get("/board/post/" + bno).then(res => {
             const post = res.data
@@ -141,7 +142,7 @@
                                             type="text" name="fname", value = ${file.fname}.dat readonly>
                                     </div>
                                     <div class="col-3">
-                                        <button class="btn btn-secondary w-100 downBtn" id="downBtn${idx}"
+                                        <button class="btn btn-secondary w-100 downBtn mainColorBtn" id="downBtn${idx}"
                                             data-fno="${file.fno}" data-fname="${file.fname}" data-fuuid="${file.fuuid}"
                                             data-fdatatype="${file.fdatatype}" hidden>다운로드</button>
                                     </div>
@@ -190,11 +191,22 @@
                                     failCnt += 1
                                     document.querySelector("#failCntMsg").innerHTML = failCnt + "번 틀렸습니다(" + failCnt + "/3)."
                                     if(failCnt == 3) {
-                                        // lock
-                                        window.localStorage.removeItem('email')
-                                        window.localStorage.removeItem('accessToken')
-                                        window.localStorage.removeItem('refreshToken')
-                                        self.location = "http://localhost:8080/member/login.html"
+                                        // 회원차단
+                                        axios.post("/member/userlock", member).then(res => {
+                                            window.localStorage.removeItem('email')
+                                            window.localStorage.removeItem('accessToken')
+                                            window.localStorage.removeItem('refreshToken')
+                                            
+                                            document.querySelector("#captchaNum").setAttribute("hidden", "hidden")
+                                            document.querySelector(".captchaBtn").setAttribute("hidden", "hidden")
+                                            document.querySelector(".modal-header").innerHTML =
+                                                `<h6 id='modalTitle'>계정 차단</h6>
+                                                <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                                            document.querySelector("#failCntMsg").innerHTML = `잘못된 접근입니다. 관리자에게 문의하세요.`
+                                            document.querySelector("#modalBtn").innerHTML =
+                                                `<a href="http://localhost:8080/member/login.html" class="btn btn-secondary mainColorBtn">확인</a>`
+                                            modal.show()
+                                        })
                                     }
                                 }
                             })
@@ -206,7 +218,7 @@
                         const target = e.target
                         const classes = target.getAttribute("class")
 
-                        if(classes == "btn btn-secondary w-100 downBtn") {
+                        if(classes == "btn btn-secondary w-100 downBtn mainColorBtn") {
                             const fno = target.getAttribute("data-fno")
                             const fname = target.getAttribute("data-fname")
                             const fuuid = target.getAttribute("data-fuuid")
@@ -238,11 +250,22 @@
                                         pwFailCnt += 1
                                         document.querySelector("#pwFailCntMsg").innerHTML = pwFailCnt + "번 틀렸습니다(" + pwFailCnt + "/3)."
                                         if(pwFailCnt == 3) {
-                                            // lock
-                                            window.localStorage.removeItem('email')
-                                            window.localStorage.removeItem('accessToken')
-                                            window.localStorage.removeItem('refreshToken')
-                                            self.location = "http://localhost:8080/member/login.html"
+                                            // 회원차단
+                                            axios.post("/member/userlock", member).then(res => {
+                                                window.localStorage.removeItem('email')
+                                                window.localStorage.removeItem('accessToken')
+                                                window.localStorage.removeItem('refreshToken')
+                                                
+                                                document.querySelector("#captchaNum").setAttribute("hidden", "hidden")
+                                                document.querySelector(".captchaBtn").setAttribute("hidden", "hidden")
+                                                document.querySelector(".modal-header").innerHTML =
+                                                    `<h6 id='modalTitle'>계정 차단</h6>
+                                                    <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                                                document.querySelector("#failCntMsg").innerHTML = `잘못된 접근입니다. 관리자에게 문의하세요.`
+                                                document.querySelector("#modalBtn").innerHTML =
+                                                    `<a href="http://localhost:8080/member/login.html" class="btn btn-secondary mainColorBtn">확인</a>`
+                                                modal.show()
+                                            })
                                         }
                                     }
                                 })
@@ -291,7 +314,7 @@
             })
         }, false)
         
-        const modal = new bootstrap.Modal(document.querySelector("#modal"))
+        // const modal = new bootstrap.Modal(document.querySelector("#modal"))
     </script>
 </body>
 </html>

@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ktds.metadx.member.security.APIUserDetailsService;
@@ -51,9 +50,9 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             return;
         }
 
-        if(path.endsWith(".html") || path.endsWith("member/mail") || path.endsWith("member/mail_chk") 
-            || path.endsWith("member/add") || path.endsWith("member/pwreset") || path.endsWith("member/login")
-            || path.endsWith("member/delete") || path.endsWith("/board/post/add"))
+        if(path.endsWith(".html") || path.endsWith("/member/mail") || path.endsWith("member/mail_chk") 
+            || path.endsWith("/member/add") || path.endsWith("/member/pwreset") || path.endsWith("member/login")
+            || path.endsWith("/member/delete") || path.endsWith("/member/userlock") || path.endsWith("/board/post/add"))
         {
             filterChain.doFilter(request, response);
             return;

@@ -48,4 +48,8 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.findByEmail(email);
     }
 
+    @Override
+    public boolean userLock(String email) {
+        return memberMapper.updateIslock(email) > 0;
+    };
 }
