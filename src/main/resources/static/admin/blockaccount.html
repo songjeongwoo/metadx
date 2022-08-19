@@ -191,6 +191,30 @@
                 </footer>
             </div>
         </div>
+
+        <div id='modal' class='modal fade' tabindex='-1'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'></div>
+                    <div class='modal-body text-center' id='modalContent'>
+                        <div class="row mb-3">
+                            <div class="col" id="makeCaptcha"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col" id="captchaBtn"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h6 id="msg"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='modal-footer justify-content-center' id='modalBtn'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../js/scripts.js"></script>
         <script src="../js/header.js"></script>
@@ -206,6 +230,7 @@
 
     <!-- Table -->
     <script>
+        const modal = new bootstrap.Modal(document.querySelector("#modal"))
 
         // bootstrap function
         const lockdatatablesSimple = document.getElementById('lockdatatablesSimple');
@@ -259,7 +284,8 @@
                         select: 4,
                         render: function(data, cell, row) {
                     
-                            return `<button onclick="statechange(this)" data-row='${row.dataIndex}' type='button'>차단 해제</button>`;
+                            return `<button class="btn btn-secondary mainColorBtn"
+                                        onclick="statechange(this)" data-row='${row.dataIndex}' type='button'>차단 해제</button>`;
                         
                         }
                     }
@@ -313,18 +339,21 @@
     </script>
 
     <script>
-        // button
         function statechange(elem) {
             console.log(lockaccount[elem.dataset.row])
             elem.innerHTML = "변경되었습니다";
         
             axios.post("/admin/changeLockAccount?email=" + lockaccount[elem.dataset.row]).then(req => {
                 // modal
-                alert(lockaccount[elem.dataset.row] + " 계정이 잠금 해제되었습니다.")
-                location.reload();
+                document.querySelector(".modal-header").innerHTML =
+                    `<h6 id='modalTitle'>계정잠금 해제</h6>
+                    <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                document.querySelector("#msg").innerHTML = `${lockaccount[elem.dataset.row]} 계정이 잠금 해제되었습니다`
+                document.querySelector("#modalBtn").innerHTML =
+                    `<a class="btn btn-secondary mainColorBtn" href="/admin/blockaccount.html">확인</a>`
+                modal.show()
             })
         }
-  
     </script>
 
 </html>

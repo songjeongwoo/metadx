@@ -5,7 +5,7 @@ document.querySelector("header").innerHTML =
             <a class="logoBtn" href="/board/list.html">
                 <img src="../res/logo.png" id="logoImg" alt="로고이미지">
             </a>
-            <a class="adminBtn ml-3 mb-0" href="http://localhost:8080/admin/index.html" hidden>관리자 화면</a>
+            <a class="adminBtn ml-3 mb-0" href="http://localhost:8080/admin/main.html" hidden>관리자 화면</a>
         </div>
         <div class="col d-flex justify-content-end mr-5 mt-4" id="menuBtn">
             <a class="registerBtn mr-3 mb-0" href="http://localhost:8080/member/register.html">회원가입</a>
