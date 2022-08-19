@@ -100,13 +100,37 @@
                                 </div>
                             </div>
                             <div class="mt-4 mb-0">
-                                <div class="d-grid"><a class="btn btn-secondary mainColorBtn btn-block createBtn" href="login.html">회원가입 완료</a></div>
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-secondary mainColorBtn btn-block createBtn" disabled>회원가입 완료</button>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer text-center py-3">
                         <div class="small"><a href="login.html" id="loginBtn">로그인으로 돌아가기</a></div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id='modal' class='modal fade' tabindex='-1'>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'></div>
+                <div class='modal-body text-center' id='modalContent'>
+                    <div class="row mb-3">
+                        <div class="col" id="makeCaptcha"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="captchaBtn"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h6 id="msg"></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer justify-content-center' id='modalBtn'>
                 </div>
             </div>
         </div>
@@ -119,54 +143,28 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link href="../css/common.css" rel="stylesheet"/>
     <script>
-        document.querySelector(".createBtn").addEventListener("click", (event) => {
+        const modal = new bootstrap.Modal(document.querySelector("#modal"))
 
-            event.preventDefault();
-            event.stopPropagation();
-
-            alert(document.querySelector("#inputEmail").value + "로 가입");
-
-            email = document.querySelector("#inputEmail").value;
-            mpw = document.querySelector("#inputPassword").value;
-            mname = document.querySelector("#inputname").value;
-            dno = document.querySelector("#dno").value;
-            jno = document.querySelector("#jno").value;
-            tno = document.querySelector("#tno").value;
-
-            const member = {
-                            "email":email,
-                            "mpw":mpw,
-                            "mname":mname,
-                            "dno":dno,
-                            "jno":jno,
-                            "tno":tno
-                        }
-
-            console.log(member)
-            
-            axios.post("/member/add", member).then(res => {
-                location.href="login.html"
-                })
-
-        }, false)
-    </script>
-    <script>
+        // 인증메일 발송
         document.querySelector(".confirmbtn").addEventListener("click", (event) => {
 
             event.preventDefault();
             event.stopPropagation();
 
             email = document.querySelector("#inputEmail").value;
-        
+
             axios.post("/member/mail", email).then(res => {
-                alert(email + "로 메일을 보냅니다");
-                console.log(res.data)
-                
+                document.querySelector(".modal-header").innerHTML =
+                    `<h6 id='modalTitle'>메일 전송</h6>
+                    <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                document.querySelector("#msg").innerHTML = `인증번호가 발송되었습니다.`
+                document.querySelector("#modalBtn").innerHTML =
+                    `<button class="btn btn-secondary mainColorBtn" data-dismiss='modal'>확인</button>`
+                modal.show()
             })
         }, false)
-    </script>
 
-    <script>
+        // 메일 인증
         document.querySelector(".confirmbtn2").addEventListener("click", (event) => {
 
             event.preventDefault();
@@ -176,13 +174,74 @@
 
             axios.post("/member/mail_chk", code).then(res =>{
                 if(res.data == code){
-                    alert("인증이 완료되었습니다.")
-                    console.log("인증완료")
+                    document.querySelector(".modal-header").innerHTML =
+                        `<h6 id='modalTitle'>인증 완료</h6>
+                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                    document.querySelector("#msg").innerHTML = `인증이 완료되었습니다.`
+                    document.querySelector("#modalBtn").innerHTML =
+                        `<button class="btn btn-secondary mainColorBtn" data-dismiss='modal'>확인</button>`
+                    modal.show()
+
+                    document.querySelector(".createBtn").removeAttribute("disabled")
+
                 }else{
-                    alert("인증이 실패하였습니다.")
-                    console.log("인증실패")
+                    document.querySelector(".modal-header").innerHTML =
+                        `<h6 id='modalTitle'>인증 실패</h6>
+                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                    document.querySelector("#msg").innerHTML = `<div class="text-danger">인증에 실패하였습니다.</div>`
+                    document.querySelector("#modalBtn").innerHTML =
+                        `<button class="btn btn-secondary mainColorBtn" data-dismiss='modal'>확인</button>`
+                    modal.show()
                 }
             })
+            }, false)
+        
+        // 회원가입
+        document.querySelector(".createBtn").addEventListener("click", (event) => {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            email = document.querySelector("#inputEmail").value;
+            mpw = document.querySelector("#inputPassword").value;
+            mname = document.querySelector("#inputname").value;
+            dno = document.querySelector("#dno").value;
+            jno = document.querySelector("#jno").value;
+            tno = document.querySelector("#tno").value;
+            console.log(dno)
+
+            if(email && mpw && mname && (dno != "본부를 선택하세요.")
+                && (jno != "직급을 선택하세요.") && (tno != "팀을 선택하세요.")) {
+                const member = {
+                                "email":email,
+                                "mpw":mpw,
+                                "mname":mname,
+                                "dno":dno,
+                                "jno":jno,
+                                "tno":tno
+                            }
+    
+                console.log(member)
+                
+                axios.post("/member/add", member).then(res => {
+                    document.querySelector(".modal-header").innerHTML =
+                        `<h6 id='modalTitle'>회원가입 성공</h6>
+                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                    document.querySelector("#msg").innerHTML = `<b>회원가입이 완료되었습니다.</b>`
+                    document.querySelector("#modalBtn").innerHTML =
+                        `<a class="btn btn-secondary mainColorBtn" href="/member/login.html">로그인 하기</a>`
+                    modal.show()
+                })
+            } else {
+                document.querySelector(".modal-header").innerHTML =
+                    `<h6 id='modalTitle'>회원가입 실패</h6>
+                    <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                document.querySelector("#msg").innerHTML = `<b class="text-danger">입력값들을 확인해주세요.</b>`
+                document.querySelector("#modalBtn").innerHTML =
+                    `<button class="btn btn-secondary mainColorBtn" data-dismiss='modal'>확인</button>`
+                modal.show()
+            }
+
         }, false)
     </script>
 </body>

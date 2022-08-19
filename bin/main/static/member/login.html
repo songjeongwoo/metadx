@@ -43,6 +43,29 @@
             </div>
         </div>
     </div>
+    <div id='modal' class='modal fade' tabindex='-1'>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'></div>
+                <div class='modal-body text-center' id='modalContent'>
+                    <div class="row mb-3">
+                        <div class="col" id="makeCaptcha"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="captchaBtn"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <b id="failMsg" class="text-danger"></b>
+                        </div>
+                    </div>
+                </div>
+                <div class='modal-footer justify-content-center' id='modalBtn'>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
@@ -51,6 +74,8 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link href="../css/common.css" rel="stylesheet"/>
     <script>
+        const modal = new bootstrap.Modal(document.querySelector("#modal"))
+
         document.querySelector(".b1").addEventListener("click", (even) => {
             
             console.log(even.data);
@@ -81,18 +106,21 @@
                     localStorage.setItem("accessToken", accessToken);
                     localStorage.setItem("refreshToken", refreshToken);
                     localStorage.setItem("email", member.email);
-                    alert("관리자 권한 계정" + document.querySelector("#inputEmail").value + "로 로그인 합니다");
                     self.location = "http://localhost:8080/admin/index.html"
                 }else if(memberType == 'member'){
                     localStorage.setItem("memberType", memberType);
                     localStorage.setItem("accessToken", accessToken);
                     localStorage.setItem("refreshToken", refreshToken);
                     localStorage.setItem("email", member.email);
-                    alert("회원 계정" + document.querySelector("#inputEmail").value + "로 로그인 합니다");
                     self.location = "http://localhost:8080/board/list.html"
                 }else {
-                    alert("로그인 실패");
-                    self.location = "http://localhost:8080/login.html"
+                    document.querySelector(".modal-header").innerHTML =
+                        `<h6 id='modalTitle'>로그인 실패</h6>
+                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                    document.querySelector("#failMsg").innerHTML = `아이디 또는 비밀번호를 확인하세요.`
+                    document.querySelector("#modalBtn").innerHTML =
+                        `<a href="http://localhost:8080/member/login.html" class="btn btn-secondary mainColorBtn">돌아가기</a>`
+                    modal.show()
                 }
                 
             })
