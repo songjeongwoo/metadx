@@ -8,6 +8,7 @@ import com.ktds.metadx.admin.dto.AdminCountDTO;
 import com.ktds.metadx.admin.dto.AdminDTO;
 import com.ktds.metadx.admin.dto.AdminLockDTO;
 import com.ktds.metadx.admin.mapper.StatisticsMapper;
+import com.ktds.metadx.member.dto.MemberDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +41,16 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean changeLockAccount(String email) {
         return mapper.changeLockAccount(email) > 0;
+    }
+
+    @Override
+    public boolean delAccount(String email) {
+        return mapper.delAccount(email) > 0;
+    }
+
+    @Override
+    public List<AdminDTO> getDelList() {
+        return mapper.getDelList();
     }
    
 

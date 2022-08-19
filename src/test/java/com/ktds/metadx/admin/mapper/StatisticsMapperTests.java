@@ -41,6 +41,11 @@ public class StatisticsMapperTests {
     }
 
     @Test
+    public void testgetDelList() {
+        mapper.getDelList().forEach(lock -> log.info(lock));
+    }
+
+    @Test
     public void testGetCountDownloads() {
         mapper.getCountDownloads().forEach(cnt -> log.info(cnt));
     }

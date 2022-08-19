@@ -38,6 +38,23 @@
         order by blockdate desc
     </select>
 
+    <select id="getDelList" resultType="com.ktds.metadx.admin.dto.AdminDTO">
+        select m.email, m.mname, m.islock,
+        CASE 
+          when d.dno then d.dname
+          ELSE '부서 미지정'
+          END AS 'department',
+        CASE 
+          when t.tno then t.tname
+          ELSE '팀 미지정'
+          END AS 'team'
+        from member m
+        LEFT OUTER JOIN department d
+        ON m.dno = d.dno
+        LEFT OUTER JOIN team t
+        ON m.tno = t.tno;
+    </select>
+
     <select id="getLockAccount" resultType="com.ktds.metadx.admin.dto.AdminLockDTO">
         SELECT MAX(l.blno) blno, m.email email, m.islock islock, MAX(l.blockdate) blockdate
         FROM member m
@@ -51,6 +68,10 @@
     <update id="changeLockAccount">
         UPDATE member SET islock = 0 WHERE email = #{email};
     </update>
+
+    <delete id="delAccount">
+        DELETE FROM membe WHERE email = #{email};
+    </delete>
 
     <select id="getCountLocks" resultType="com.ktds.metadx.admin.dto.AdminCountDTO">
         SELECT MONTH(blockdate) no, COUNT(blockdate) count 

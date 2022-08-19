@@ -23,4 +23,7 @@ public class AdminDTO {
 
     private String team;
     private String department;
+
+    private String mname;
+    private boolean islock;
 }
