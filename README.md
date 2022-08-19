@@ -58,7 +58,8 @@
 ##### 8) 캡챠 인증
 > - 숫자, 글꼴, 속성들을 랜덤으로 이미지를 생성하여 사용자가 로봇인지 사람인지 판별 할 수 있게 함<br>
 >   예시)
-# <img src = "https://github.com/songjeongwoo/metadx/blob/main/src/main/resources/static/res/captchaImage.png?raw=true" width = "500rem" height = "400rem" >
+# <img src = "https://github.com/songjeongwoo/metadx/blob/main/src/main/resources/static/res/captchaImage.PNG?raw=true" width = "500rem" height = "400rem" >
+
 
 ## 3. ERD
 # <img src = "https://github.com/songjeongwoo/metadx/blob/main/src/main/resources/static/res/ERD.png?raw=true" width = "900rem" height = "450rem" >
