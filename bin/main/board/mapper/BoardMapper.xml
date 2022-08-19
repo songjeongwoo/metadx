@@ -5,7 +5,7 @@
 
   <mapper namespace="com.ktds.metadx.board.mapper.BoardMapper">
     <select id="getList" resultMap="boardMap">
-      select b.bno, b.btitle title, b.breg_date regDate, m.mname
+      select b.bno, b.btitle title, b.isfile isFiles, b.breg_date regDate, m.mname
       from board b
       left join member m
       on b.email = m.email

@@ -19,6 +19,6 @@ public class BoardDTO {
     private String content;
     private LocalDate regDate;
     private LocalDate modDate;
-    private boolean isFiles;
+    private int isFiles;
     private MemberDTO member;
 }

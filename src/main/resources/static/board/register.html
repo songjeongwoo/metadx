@@ -66,21 +66,27 @@
             let title = document.querySelector("#title").value
             let content = document.querySelector("#content").value
             
+            const files = document.querySelector("#files").files
+            isFiles = 0
+            let form = document.querySelector("#filesForm") //form DOM element
+            let formData = new FormData(form)
+            if(files.length > 0) {
+                isFiles = 1
+            }
+            
             const data = {
                     title: title,
                     content: content,
+                    regDate: new Date(),
+                    isFiles: isFiles,
                     member: {
                         email: member,
-                    },
-                    regDate: new Date()
+                    }
                 }
                 
             axios.post("/board/post/add", data).then(res => {
                 
                 const bno = res.data.result
-                const files = document.querySelector("#files").files
-                let form = document.querySelector("#filesForm") //form DOM element
-                let formData = new FormData(form)
             
                 formData.append("bno", bno)
                     

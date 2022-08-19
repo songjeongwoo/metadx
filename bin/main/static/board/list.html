@@ -113,13 +113,28 @@
                     const posts = res.data.dtoList
                     let postList = [];
                     posts.forEach(async (post) => {
-                        postList.push(
-                            `<tr class="postDetail">
-                                <td class="postId">${post.bno}</td>
-                                <td class="postTitle"><a href="/board/detail.html" id="${post.bno}">${post.title}</a></td>
-                                <td class="postWriter">${post.member.mname}</td>
-                                <td class="postRegDate">${post.regDate}</td>
-                            </tr>`)
+                        if(post.isFiles) {
+                            postList.push(
+                                `<tr class="postDetail">
+                                    <td class="postId">${post.bno}</td>
+                                    <td class="postTitle">
+                                        <a href="/board/detail.html" id="${post.bno}">${post.title}</a>
+                                        <img src="../res/fileImg.png" class="isFile" style="height: 0.7rem;" data-isFile="${post.isFiles}"/>
+                                    </td>
+                                    <td class="postWriter">${post.member.mname}</td>
+                                    <td class="postRegDate">${post.regDate}</td>
+                                </tr>`)
+                        } else {
+                            postList.push(
+                                `<tr class="postDetail">
+                                    <td class="postId">${post.bno}</td>
+                                    <td class="postTitle">
+                                        <a href="/board/detail.html" id="${post.bno}">${post.title}</a>
+                                    </td>
+                                    <td class="postWriter">${post.member.mname}</td>
+                                    <td class="postRegDate">${post.regDate}</td>
+                                </tr>`)
+                        }
                     })
                     document.querySelector("tbody").innerHTML = postList.join('')
                     // 목록 출력 끝

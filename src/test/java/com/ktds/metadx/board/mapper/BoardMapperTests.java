@@ -48,7 +48,7 @@ public class BoardMapperTests {
         BoardDTO dto = BoardDTO.builder()
             .title("addTest").content("addTest")
             .regDate(LocalDate.now()).member(member)
-            .isFiles(false).build();
+            .isFiles(0).build();
 
 		boolean result = boardMapper.insertPost(dto) > 0;
 		
@@ -69,7 +69,7 @@ public class BoardMapperTests {
         BoardDTO dto = BoardDTO.builder()
             .bno(160L).title("modTest").content("modTest")
             .modDate(LocalDate.now()).member(member)
-            .isFiles(false).build();
+            .isFiles(0).build();
 
 		boolean result = boardMapper.updatePost(dto) > 0;
 		
