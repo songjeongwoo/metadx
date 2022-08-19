@@ -7,10 +7,10 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Charts - SB Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="../css/styles.css" rel="stylesheet" />
         <link href="../css/common.css" rel="stylesheet"/>
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav" style="background-color: #16355D !important; height: 5rem;">
@@ -49,6 +49,7 @@
                     </div>
                 </nav>
             </div>
+            
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
@@ -62,26 +63,28 @@
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 회원 관리
-                                <button type='button' style="float: right;">확정 버튼</button>
+                                <!-- <input type='submit' onclick="statechange(this)" style="float: right;"></button> -->
                             </div>
                             <div class="card-body">
                                 <table id="memberManagement">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
                                             <th>계정 이메일</th>
-                                            <th>차단 시간</th>
-                                            <th>차단 시간</th>
-                                            <th>차단 시간</th>
+                                            <th>이름</th>
+                                            <th>차단 여부</th>
+                                            <th>본부</th>
+                                            <th>팀</th>
+                                            <th>선택</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>No</th>
                                             <th>계정 이메일</th>
-                                            <th>차단 시간</th>
-                                            <th>차단 시간</th>
-                                            <th>차단 시간</th>
+                                            <th>이름</th>
+                                            <th>차단 여부</th>
+                                            <th>본부</th>
+                                            <th>팀</th>
+                                            <th>선택</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -99,6 +102,7 @@
                         </div>
 
                     </div>
+
                 </main>
 
                 <footer class="py-4 bg-light mt-auto">
@@ -119,13 +123,14 @@
         <script src="../js/scripts.js"></script>
         <script src="../js/admin.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="../js/adminhasrole.js"></script>
         
     </body>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     
      <!-- Block account manage -->
-     <script>
+    <script>
 
         const lockaccount = []
         const memberManagement = document.getElementById('memberManagement');
@@ -133,10 +138,11 @@
 
                 columns : [
                     {   
-                        select: 4,
+                        select: 5,
                         render: function(data, cell, row) {
                     
-                            return `<button onclick="statechange(this)" data-row='${row.dataIndex}' type='button'>체크 버튼 넣을 공간</button>`;
+                            return `<button onclick="statechange(this)" data-row='${row.dataIndex}' type='button'>변경</button>`;
+                            // return `<input type='checkbox' value='${row.dataIndex}'/>`;
                         
                         }
                     }
@@ -146,11 +152,11 @@
 
         // table init
         memberManagementtable.on('datatable.init', function(args) {
-            axios.get("/admin/getLockAccount").then(res => {
+            axios.get("/admin/getDelList").then(res => {
 
                 const obj1 = {
                 // Quickly get the headings
-                headings: ["blno", "email", "islock", "blockdate"],
+                headings: ["email", "mname", "islock", "department", "team"],
 
                     // data array
                     data: []
@@ -163,20 +169,20 @@
 
                     for (let j = 0; j < obj1.headings.length; j++) {
                         lockaccount.push(res.data[i]["email"].toString())
-                        const p = obj1.headings[j]
+                        const p1 = obj1.headings[j]
 
-                        if( res.data[i].hasOwnProperty(p) ) {
-                                if (cnt == 2 && res.data[i][p] == 1) {
+                        if( res.data[i].hasOwnProperty(p1) ) {
+                            if (cnt == 2 && res.data[i][p1] == 1) {
                                     obj1.data[i].push("차단")
                                 }
-                                else if (cnt == 2 && res.data[i][p] == 0) {
-                                    obj1.data[i].push("알 수 없음")
+                                else if (cnt == 2 && res.data[i][p1] == 0) {
+                                    obj1.data[i].push("정상")
                                 }
                                 else {
-                                    obj1.data[i].push(res.data[i][p].toString())
+                                    obj1.data[i].push(res.data[i][p1].toString())
                                     cnt += 1
                                 }
-                            }
+                        }
                     }
                 }
                 memberManagementtable.insert(obj1)
@@ -190,12 +196,13 @@
         // button
         function statechange(elem) {
             console.log(lockaccount[elem.dataset.row])
+            
             elem.innerHTML = "변경되었습니다";
         
-            axios.post("/admin/changeLockAccount?email=" + lockaccount[elem.dataset.row]).then(req => {
+            axios.post("/admin/delAccount?email=" + lockaccount[elem.dataset.row]).then(req => {
                 // modal
-                alert(lockaccount[elem.dataset.row] + " 계정이 잠금 해제되었습니다.")
-                location.reload();
+                alert(lockaccount[elem.dataset.row] + " 계정이 탈퇴 처리되었습니다.")
+                // location.reload();
             })
         }
 
