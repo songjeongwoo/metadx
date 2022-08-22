@@ -91,6 +91,9 @@ public class MemberController {
             Map<String, Object> map = new HashMap<>();
             map.put("mid", memberDTO.getEmail()); 
             map.put("grade", memberDTO.isIsadmin()?"ADMIN":"USER"); 
+            String dno = Long.toString(member.getDno());
+            String tno = Long.toString(member.getTno());
+
 
             log.info(memberDTO.getEmail());
 
@@ -115,7 +118,7 @@ public class MemberController {
                 log.info("=========회원 전용 로그인 ===========" + member.isIsadmin());
                 log.info(member.getEmail() + "님이 로그인 되었습니다");
                 log.info("====================");
-                return Map.of("result", "member", "accessToken", accessToken, "refreshToken", refreshToken);
+                return Map.of("result", "member", "accessToken", accessToken, "refreshToken", refreshToken, "dno", dno, "tno", tno);
             }
         } else{ // 로그인 실패 시
             log.info("====================");

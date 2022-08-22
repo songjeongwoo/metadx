@@ -73,7 +73,9 @@
             if(files.length > 0) {
                 isFiles = 1
             }
-            
+            const dno = localStorage.getItem("dno");
+            const tno = localStorage.getItem("tno");
+
             const data = {
                     title: title,
                     content: content,
@@ -81,6 +83,8 @@
                     isFiles: isFiles,
                     member: {
                         email: member,
+                        dno : dno,
+                        tno : tno
                     }
                 }
                 
@@ -88,9 +92,11 @@
                 
                 const bno = res.data.result
                 
+                
                 let form = document.querySelector("#filesForm") //form DOM element
                 let formData = new FormData(form)
                 formData.append("bno", bno)
+
 
                 if(files.length > 0) {
                     axios.post("/file/register", formData, {

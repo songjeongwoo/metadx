@@ -100,6 +100,8 @@
                 const memberType = res.data.result
                 const accessToken = res.data.accessToken
                 const refreshToken = res.data.refreshToken
+                const dno = res.data.dno
+                const tno = res.data.tno
 
                 if(memberType == 'admin'){
                     localStorage.setItem("memberType", memberType);
@@ -112,6 +114,8 @@
                     localStorage.setItem("accessToken", accessToken);
                     localStorage.setItem("refreshToken", refreshToken);
                     localStorage.setItem("email", member.email);
+                    localStorage.setItem("dno", dno);
+                    localStorage.setItem("tno", tno);
                     self.location = "http://localhost:8080/board/list.html"
                 }else {
                     document.querySelector(".modal-header").innerHTML =

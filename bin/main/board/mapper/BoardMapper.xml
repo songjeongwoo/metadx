@@ -52,8 +52,8 @@
       <selectKey keyColumn="bno" keyProperty="bno" resultType="java.lang.Long" order="AFTER">
         select last_insert_ID() as bno
       </selectKey>
-      insert into board (btitle, bcontent, breg_date, email, isfile)
-        values (#{title}, #{content}, now(), #{member.email}, #{isFiles})
+      insert into board (btitle, bcontent, breg_date, email, isfile,dno,tno)
+        values (#{title}, #{content}, now(), #{member.email}, #{isFiles},#{member.dno},#{member.tno})
     </insert>
 
     <update id="updatePost">
