@@ -2,6 +2,7 @@ package com.ktds.metadx.admin.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,17 +57,16 @@ public class AdminController {
         log.info(result);
     }
     
-    // use thymeleaf template html
-    // @GetMapping("/statistics")
-    // public void statistics(Model model) {
-    //     log.info("Statistics Page Loading...");
-    //     model.addAttribute("statisticsList", service.getList());
-    //     model.addAttribute("getCountDownloads", service.getCountDownloads());
-    // }
-
-    // @GetMapping("/memberlock")
-    // public void memberlock(Model model) {
-    //     log.info("Lock Page Loading...");
-    //     model.addAttribute("memberLockList", service.getLockList());
-    // }
+    @GetMapping("/getDelList")
+    public List<AdminDTO> getDelList() {
+        return service.getDelList();
+    }
+    
+    @DeleteMapping("/delAccount")
+    // public void delAccount(@RequestParam(value = "email", required = false) String email) {
+    public void delAccount(@RequestParam(value = "email", required = false) String email) {
+        log.info("가져온 값 : " + email);
+        boolean result = service.delAccount(email);
+        log.info(result);
+    }
 }

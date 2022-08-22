@@ -339,7 +339,7 @@
             const lockchartdata = new Array();
 
             axios.get("/admin/getCountLocks").then(res => {
-                for ( let i = 0; i < 31; i++ ) {
+                for ( let i = 0; i < 12; i++ ) {
                     lockchartdata.push(0)
                     for ( let j = 0; j < res.data.length; j++ ){
                         if(res.data[j]["no"] - 1 == i){

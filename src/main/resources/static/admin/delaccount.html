@@ -63,7 +63,7 @@
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 회원 관리
-                                <!-- <input type='submit' onclick="statechange(this)" style="float: right;"></button> -->
+                                <!-- <input type='submit' onclick="statechange()" style="float: right;"></button> -->
                             </div>
                             <div class="card-body">
                                 <table id="memberManagement">
@@ -119,6 +119,29 @@
                 </footer>
             </div>
         </div>
+        <div id='modal' class='modal fade' tabindex='-1'>
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <div class='modal-header'></div>
+                    <div class='modal-body text-center' id='modalContent'>
+                        <div class="row mb-3">
+                            <div class="col" id="makeCaptcha"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col" id="captchaBtn"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h6 id="msg"></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='modal-footer justify-content-center' id='modalBtn'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="../js/scripts.js"></script>
         <script src="../js/admin.js"></script>
@@ -131,7 +154,7 @@
     
      <!-- Block account manage -->
     <script>
-
+        const modal = new bootstrap.Modal(document.querySelector("#modal"))
         const lockaccount = []
         const memberManagement = document.getElementById('memberManagement');
         const memberManagementtable = new simpleDatatables.DataTable(memberManagement, {
@@ -141,7 +164,8 @@
                         select: 5,
                         render: function(data, cell, row) {
                     
-                            return `<button onclick="statechange(this)" data-row='${row.dataIndex}' type='button'>변경</button>`;
+                            return `<button data-row='${row.dataIndex}' type='button'
+                                    class="btn btn-secondary mainColorBtn">삭제</button>`;
                             // return `<input type='checkbox' value='${row.dataIndex}'/>`;
                         
                         }
@@ -153,6 +177,7 @@
         // table init
         memberManagementtable.on('datatable.init', function(args) {
             axios.get("/admin/getDelList").then(res => {
+                console.log(res)
 
                 const obj1 = {
                 // Quickly get the headings
@@ -194,18 +219,26 @@
         });
 
         // button
-        function statechange(elem) {
-            console.log(lockaccount[elem.dataset.row])
-            
-            elem.innerHTML = "변경되었습니다";
-        
-            axios.post("/admin/delAccount?email=" + lockaccount[elem.dataset.row]).then(req => {
-                // modal
-                alert(lockaccount[elem.dataset.row] + " 계정이 탈퇴 처리되었습니다.")
-                // location.reload();
-            })
-        }
+        document.querySelector("tbody").addEventListener("click", (e) => {
+            const target = e.target
+            const delBtnClass = target.getAttribute("class")
+            if(delBtnClass == "btn btn-secondary mainColorBtn") {
+                const email = target.parentNode.parentNode.firstChild.textContent
 
+                console.log(email)
+
+                axios.delete("/admin/delAccount?email=" + email).then(req => {
+                    // modal
+                    document.querySelector(".modal-header").innerHTML =
+                        `<h6 id='modalTitle'>계정 삭제</h6>
+                        <h6><button type='button' class='btn btn-sm' data-dismiss='modal'>X</button></h6>`
+                    document.querySelector("#msg").innerHTML =
+                        `<div class="text-danger">${email} 계정이 탈퇴 처리되었습니다.</div>`
+                    document.querySelector("#modalBtn").innerHTML =
+                        `<a class="btn btn-secondary mainColorBtn" href="/admin/delaccount.html">확인</a>`
+                    modal.show()
+                })
+            }
+        }, false)
     </script>
-    
 </html>

@@ -43,7 +43,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col d-flex justify-content-end">
-                                <input class="form-control w-50 userKey" type="text"
+                                <input class="form-control w-50 userKey" type="password"
                                         name="userKey" placeholder="파일 비밀번호 입력" hidden>
                                 <button type="button" class="btn btn-secondary mainColorBtn"
                                     id="isHuman" hidden>인간인증</button>
@@ -131,6 +131,8 @@
             
             axios.get("/file/filelist", {params : {bno : bno}}).then(res => {                                    
                 const files = res.data
+                console.log(bno)
+                console.log(files)
                 let fileList = [];
                 files.forEach(async (file, idx) => {
                     fileList.push(`

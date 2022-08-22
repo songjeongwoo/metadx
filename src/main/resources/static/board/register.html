@@ -26,7 +26,7 @@
                 <form class="row mb-3 justify-content-end" id="filesForm">
                     <div class="col">
                         <label for="fkey" class="form-label">파일 비밀번호</label>
-                        <input class="form-control" type="text" id="fkey" name="fkey"/>
+                        <input class="form-control" type="password" id="fkey" name="fkey"/>
                     </div>
                     <div class="col">
                         <label for="files" class="form-label h-75"></label>
@@ -68,8 +68,8 @@
             
             const files = document.querySelector("#files").files
             isFiles = 0
-            let form = document.querySelector("#filesForm") //form DOM element
-            let formData = new FormData(form)
+            console.log(files)
+            
             if(files.length > 0) {
                 isFiles = 1
             }
@@ -87,16 +87,17 @@
             axios.post("/board/post/add", data).then(res => {
                 
                 const bno = res.data.result
-            
+                
+                let form = document.querySelector("#filesForm") //form DOM element
+                let formData = new FormData(form)
                 formData.append("bno", bno)
-                    
+
                 if(files.length > 0) {
                     axios.post("/file/register", formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }).then(res => {
-                        location.href="list.html"
                     })
                 }
                 location.href="list.html"

@@ -70,13 +70,14 @@
     </update>
 
     <delete id="delAccount">
-        DELETE FROM membe WHERE email = #{email};
+        DELETE FROM member WHERE email = #{email};
     </delete>
 
     <select id="getCountLocks" resultType="com.ktds.metadx.admin.dto.AdminCountDTO">
         SELECT MONTH(blockdate) no, COUNT(blockdate) count 
         FROM block
         WHERE YEAR(blockdate) = YEAR(NOW())
+        GROUP BY MONTH(blockdate)
         ORDER BY MONTH(blockdate) DESC;
     </select>
 
